@@ -20,7 +20,7 @@
     <input id="fileinput" type="file" class="custom-file-input d-none" onchange="fileLoad(this);" />
 
     <div class="container">
-        <textarea id="codeField" onKeyDown="processText(event, this);" class="form-control" style="word-wrap: normal;"></textarea>
+        <textarea id="codeField" onKeyUp="processTitle(event, this);" onKeyDown="processText(event, this);" class="form-control" style="word-wrap: normal;"></textarea>
         
         <div class="d-flex justify-content-center mb-3"></div>
             <div id="saved" style="display: none;" class="text-white bg-info rounded font-weight-bold p-2 px-4">Saved</div>

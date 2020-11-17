@@ -51,16 +51,17 @@ function downloadfile(name){
     }
 }
 
+function processTitle(event, textarea) {
+    isSaved = textarea.value == savedText;
+    setTitle(isSaved);
+}
+
 function processText (event, textarea) { 
     if (event.ctrlKey && event.keyCode === 83) {
         event.preventDefault();
         if(!isSaved) saveText(textarea);
         return false;
     }
-
-    isSaved = textarea.value == savedText;
-
-    setTitle(isSaved);
 
     if(event.keyCode === 9) {
         event.preventDefault();
@@ -78,6 +79,8 @@ function fileLoad(inputField){ // loads a file
     reader.onload = function (e) {
         var textArea = document.getElementById("codeField");
         textArea.value = e.target.result;
+        isSaved = textArea.value == savedText;
+        setTitle(isSaved);    
     };
-    reader.readAsText(file);    
+    reader.readAsText(file);
 }
