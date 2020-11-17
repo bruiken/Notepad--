@@ -1,0 +1,13 @@
+html, body {
+    height: 100%;
+}
+
+textarea.form-control, .container {
+    height: calc(100% - 100px) !important;
+}
+
+textarea.form-control {
+    line-height: 1.2em;
+    font-family: Consolas, 'Courier New', Courier, monospace;
+}
+
