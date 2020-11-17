@@ -10,6 +10,7 @@ $(() => {
 function saveText(textarea) {
     savedNotification();
     localStorage.setItem(textarea.id, textarea.value);
+    savedText = textarea.value;
     isSaved = true;
     setTitle(isSaved);
 }
