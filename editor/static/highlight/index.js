@@ -12,6 +12,11 @@ $(() => {
     textArea.addEventListener("input", function () {
         processPost(this);
     });
+
+    $(document).bind('fileLoad_done', () => {
+        processPost(textArea);
+    });
+    processPost(textArea);
 });
 
 function selectedLanguage() {

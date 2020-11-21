@@ -81,7 +81,8 @@ function fileLoad(inputField){ // loads a file
         var textArea = document.getElementById("textArea");
         textArea.value = e.target.result;
         isSaved = textArea.value == savedText;
-        setTitle(isSaved);    
+        setTitle(isSaved);
+        $(document).trigger('fileLoad_done');
     };
     reader.readAsText(file);
 }
