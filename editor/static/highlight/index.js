@@ -40,8 +40,8 @@ function processPost(textarea) {
         text: textarea.value
     };
     $.post("/editor/highlight", data, function (data, response) {
+        isRequesting = false;
         if (response === "success") {
-            isRequesting = false;
             previousText = displayArea.innerHTML;
             displayArea.innerHTML = data.replace(/\n$/g, '\n\n');
         }
