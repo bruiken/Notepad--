@@ -2,7 +2,7 @@ $(() => {
     var backArea = document.querySelector('.backArea');
     var textArea = document.getElementById('textArea');
     var displayArea = document.querySelector('.displayArea');
-    displayArea.innerHTML = restoreText(textArea)
+    displayArea.innerHTML = restoreText(textArea);
 
     textArea.addEventListener("scroll", function () {
         backArea.scrollTop = textArea.scrollTop;
