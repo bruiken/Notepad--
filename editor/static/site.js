@@ -1,34 +1,16 @@
 var isSaved = true;
 var savedText = "";
-var previousText = "";
-
-
-
 
 $(() => {
-    var backdrop = document.querySelector('.backdrop');
     var textArea = document.getElementById('textArea');
-    var displayArea = document.querySelector('.displayArea');
-    displayArea.innerHTML = restoreText(textArea)
-
-    textArea.addEventListener("scroll", function()
-    {
-        backdrop.scrollTop = textArea.scrollTop;
-        backdrop.scrollLeft = textArea.scrollLeft;
-    });
-
-    textArea.addEventListener("input", function()
-    {
-        processPost(this);
-    });
+    textArea.value = restoreText(textArea);
 });
 
 
 function saveText(textarea) {
     savedNotification();
-    var htmlContents = textarea.innerHTML;
-    localStorage.setItem(textarea.id, htmlContents);
-    savedText = htmlContents;
+    localStorage.setItem(textarea.id, textarea.value);
+    savedText = textarea.value;
     isSaved = true;
     setTitle(isSaved);
 }
@@ -61,7 +43,7 @@ function downloadfile(name){
     var workElement = document.createElement("a");
     if ('download' in workElement) {
         var text = restoreText(textArea);
-        var file = new Blob([text], {type: 'text/plain'});
+        var file = new Blob([restoreText(textArea)], {type: 'text/plain'});
         workElement.href = URL.createObjectURL(file);
         workElement.download = name;
         document.body.appendChild(workElement);
@@ -70,29 +52,12 @@ function downloadfile(name){
     }
 }
 
-function selectedLanguage() {
-    var textArea = document.getElementById('textArea');
-    processPost(textArea);
-}
-
-function processPost (textarea) {
+function processTitle(event, textarea) {
     isSaved = textarea.value == savedText;
-    var displayArea = document.querySelector(".displayArea");
-    var language = document.getElementById("languageSelect");
-    // Changed
-    const data = {
-        language: language.value,
-        text: textarea.value
-    };
-    $.post("/editor", data, function (data, response) {
-        if (response === "success") {
-            previousText = displayArea.innerHTML;
-            displayArea.innerHTML = data.replace(/\n$/g, '\n\n');
-        }
-    }); 
+    setTitle(isSaved);
 }
 
-function processPre (event, textarea) {
+function processText (event, textarea) { 
     if (event.ctrlKey && event.keyCode === 83) {
         event.preventDefault();
         if(!isSaved) saveText(textarea);
@@ -113,7 +78,7 @@ function fileLoad(inputField){ // loads a file
     var file = document.getElementById("fileinput").files[0];
     var reader = new FileReader();
     reader.onload = function (e) {
-        var textArea = document.getElementById("codeField");
+        var textArea = document.getElementById("textArea");
         textArea.value = e.target.result;
         isSaved = textArea.value == savedText;
         setTitle(isSaved);    

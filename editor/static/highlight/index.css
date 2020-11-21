@@ -1,3 +1,41 @@
+.backArea.form-control, #textArea {
+    position: absolute;
+    padding: 0;
+    line-height: 1.2em;
+    font-family: Consolas, 'Courier New', Courier, monospace;;
+    max-height: inherit;
+    max-width: inherit;
+    height: 80%;
+    word-wrap: normal;
+}
+
+#languageSelect {
+    height: 20%;
+}
+
+.displayArea {
+    overflow: hidden;
+    white-space: pre-wrap;
+    word-wrap: normal;
+  }
+
+#textArea {
+    position: absolute;
+    border-radius: 0;
+    background-color: transparent;
+    color: transparent;
+    caret-color: #555555;
+    z-index: 2;
+    resize: none;
+}
+
+.backArea.form-control {
+    z-index: 1;
+    border: 2px solid transparent;
+    overflow: auto;
+    pointer-events: none;
+}
+
 td.linenos pre { color: #000000; background-color: #f0f0f0; padding-left: 5px; padding-right: 5px; }
 span.linenos { color: #000000; background-color: #f0f0f0; padding-left: 5px; padding-right: 5px; }
 td.linenos pre.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
