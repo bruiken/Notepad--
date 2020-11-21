@@ -1,3 +1,6 @@
+var isRequesting = false;
+var requestHighlight = false;
+
 $(() => {
     var backArea = document.querySelector('.backArea');
     var textArea = document.getElementById('textArea');
@@ -25,6 +28,10 @@ function selectedLanguage() {
 }
 
 function processPost(textarea) {
+    if (isRequesting) {
+        requestHighlight = true;
+        return;
+    }
     isSaved = textarea.value == savedText;
     var displayArea = document.querySelector(".displayArea");
     var language = document.getElementById("languageSelect");
@@ -34,8 +41,14 @@ function processPost(textarea) {
     };
     $.post("/editor/highlight", data, function (data, response) {
         if (response === "success") {
+            isRequesting = false;
             previousText = displayArea.innerHTML;
             displayArea.innerHTML = data.replace(/\n$/g, '\n\n');
         }
+        if (requestHighlight) {
+            requestHighlight = false;
+            processPost(textarea);
+        } 
     });
+    isRequesting = true;
 }
