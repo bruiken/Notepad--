@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect
 from flask_bootstrap import Bootstrap
+from .features.highlight import SyntaxHighlight
 import os
 
 app = Flask("test", root_path=os.path.join(os.getcwd(), 'editor'))
@@ -18,6 +19,4 @@ def editor():
 
 @app.route('/editor', methods=['POST'])
 def editor_post():
-    text = request.form['text']
-    processed_text = text.upper()
-    return processed_text
+    return SyntaxHighlight(request)

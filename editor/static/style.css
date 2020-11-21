@@ -2,12 +2,40 @@ html, body {
     height: 100%;
 }
 
-textarea.form-control, .container {
+#mainPane {
     height: calc(100% - 100px) !important;
 }
 
-textarea.form-control {
+.backdrop.form-control, #textArea {
+    padding: 0;
     line-height: 1.2em;
     font-family: Consolas, 'Courier New', Courier, monospace;
+    height: 70%;
+    max-height: inherit;
+    max-width: inherit;
+    word-wrap: normal;
 }
 
+.displayArea {
+    overflow: hidden;
+    white-space: pre-wrap;
+    word-wrap: normal;
+  }
+
+#textArea {
+    position: absolute;
+    border-radius: 0;
+    background-color: transparent;
+    color: transparent;
+    caret-color: #555555;
+    z-index: 2;
+    resize: none;
+}
+
+.backdrop.form-control {
+    position: absolute;
+    z-index: 1;
+    border: 2px solid transparent;
+    overflow: auto;
+    pointer-events: none;
+}
