@@ -1,16 +1,11 @@
 .backArea.form-control, #textArea {
     position: absolute;
-    padding: 0;
     line-height: 1.2em;
     font-family: Consolas, 'Courier New', Courier, monospace;
     max-height: inherit;
     max-width: inherit;
-    height: 80%;
+    height: 70vh;
     word-wrap: normal;
-}
-
-#languageSelect {
-    height: 20%;
 }
 
 .displayArea {
