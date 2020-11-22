@@ -8,6 +8,7 @@ from aop import extensible
 app = Flask("Notepad--", root_path=os.path.join(os.getcwd(), 'editor'))
 Bootstrap(app)
 
+feature_line_numbers = bool(strtobool(os.getenv("USE_LINE_NUMBERS")))
 
 @extensible
 def define_endpoints(flaskapp):
@@ -21,6 +22,8 @@ def define_endpoints(flaskapp):
                                feature_sheets=feature_sheets([]),
                                feature_scripts=feature_scripts([]),
                                editor_html=feature_editor_htmls([]),
+                               pre_editor_html=feature_pre_editor_htmls([]),
+                               page_editor_html=feature_page_htmls([]),
                                **feature_states({}))
 
 
@@ -41,6 +44,16 @@ def feature_scripts(scripts):
 
 @extensible
 def feature_editor_htmls(htmls):
+    return htmls
+
+
+@extensible
+def feature_pre_editor_htmls(htmls):
+    return htmls
+
+
+@extensible
+def feature_page_htmls(htmls):
     return htmls
 
 
