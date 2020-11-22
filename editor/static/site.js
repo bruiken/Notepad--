@@ -1,15 +1,22 @@
 var isSaved = true;
 var savedText = "";
+var currentItem = 'textArea';
 
 $(() => {
-    var textArea = document.getElementById('textArea');
+    var textArea = document.getElementById(currentItem);
+    console.log(textArea.id);
     textArea.value = restoreText(textArea);
 });
 
+function passID(id){
+    currentItem = id;
+}
 
 function saveText(textarea) {
+    console.log("current textarea " + textarea.id);
     savedNotification();
     localStorage.setItem(textarea.id, textarea.value);
+    console.log("saving: " + textarea.id + " with value " +  localStorage.getItem(textarea.id));
     savedText = textarea.value;
     isSaved = true;
     setTitle(isSaved);
@@ -30,6 +37,7 @@ function savedNotification() {
 }
 
 function restoreText(textarea) {
+    restoreTabs();
     var savedValue = localStorage.getItem(textarea.id);
     if(!savedValue) {
         return ""
@@ -38,8 +46,15 @@ function restoreText(textarea) {
     return savedValue;
 }
 
+function restoreTabs(){
+    var textArea2 = document.getElementById('textArea2');
+    textArea2.value = localStorage.getItem(textArea2.id);
+    var textArea3 = document.getElementById('textArea3');
+    textArea3.value = localStorage.getItem(textArea3.id);
+}
+
 function downloadfile(name){
-    var textArea = document.getElementById("textArea");
+    var textArea = document.getElementById(currentItem);
     var workElement = document.createElement("a");
     if ('download' in workElement) {
         var text = restoreText(textArea);
@@ -60,7 +75,8 @@ function processTitle(event, textarea) {
 function processText (event, textarea) { 
     if (event.ctrlKey && event.keyCode === 83) {
         event.preventDefault();
-        if(!isSaved) saveText(textarea);
+        //if(!isSaved) 
+        saveText(textarea);
         return false;
     }
 
@@ -78,7 +94,7 @@ function fileLoad(inputField){ // loads a file
     var file = document.getElementById("fileinput").files[0];
     var reader = new FileReader();
     reader.onload = function (e) {
-        var textArea = document.getElementById("textArea");
+        var textArea = document.getElementById(currentItem);
         textArea.value = e.target.result;
         isSaved = textArea.value == savedText;
         setTitle(isSaved);
@@ -87,33 +103,16 @@ function fileLoad(inputField){ // loads a file
     reader.readAsText(file);
 }
 
-function selectedText(){
-    var text = "";
-    if (window.getSelection) {
-        text = window.getSelection().toString();
-    } else if (document.selection && document.selection.type != "Control") {
-        text = document.selection.createRange().text;
-    }
-    return text;
-}
 
-function search(site) {
-    switch (site){
-        case 'google': 
-            window.open("http://www.google.com/search?q=" + selectedText());
-            break;
-        case 'youtube':
-            window.open("https://www.youtube.com/results?search_query=" + selectedText());
-            break;
-        case 'stackoverflow':
-            window.open("https://stackoverflow.com/search?q=" + selectedText());
-            break; 
-        case 'reddit':
-            window.open
-            ("https://www.reddit.com/r/ProgrammerHumor/search?q=" + selectedText() + 
-            "&restrict_sr=on&sort=relevance&t=all")
-        default: 
-            console.alert("No site found")
-        
-    }
-}
+
+
+
+
+
+
+
+
+
+
+
+

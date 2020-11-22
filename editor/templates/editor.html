@@ -24,17 +24,28 @@
 
 {% block content %}
     <input id="fileinput" type="file" class="custom-file-input d-none" onchange="fileLoad(this);" />
+    
     <div class="container">
-        <div id=editor>
-            {% if highlight %}
-            {% include 'highlight/index.html' %}
-            {% endif %}
-            <textarea spellcheck="false" id="textArea" onKeyUp="processTitle(event, this);" onKeyDown="processText(event, this);"
-                class="form-control"></textarea>
-        </div>
+        
+       
+        
+       
+                <!-- <div id=editor>
+                    {% if highlight %}
+                    {% include 'highlight/index.html' %}
+                    {% endif %}
+                    <textarea spellcheck="false" id="textArea" onKeyUp="processTitle(event, this);" onKeyDown="processText(event, this);"
+                        class="form-control"></textarea>
+                </div>
+             -->
+        
+
+
+
         <div class="d-flex justify-content-center mb-3"></div>
         <div id="saved" style="display: none;" class="text-white bg-info rounded font-weight-bold p-2 px-4">Saved</div>    
     </div>
+
     <div class="modal fade" id="chooseFileModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -66,6 +77,53 @@
         <button id="reddit" button type="button" class="btn btn-outline-success"
         onclick="search(this.id)"
         >Search on Reddit</button>
+    </div>
+
+    <div class="container">
+            <div class="d-flex justify-content-center mb-3"></div>
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+              <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Tab 1</a>
+              <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Tab 2</a>
+              <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Tab 3</a>
+            </div>
+          </nav>
+          <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                <div class="form-group">
+                    {% if highlight %}
+                    {% include 'highlight/index.html' %}
+                    {% endif %}
+                    <textarea spellcheck="false" id="textArea" 
+                    onKeyDown="passID(this.id); processText(event, this);" class="form-control"
+                    onKeyUp="processTitle(event, this);">
+                    </textarea>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                
+                <div class="form-group">
+                    {% if highlight %}
+                    {% include 'highlight/index.html' %}
+                    {% endif %}
+                    <textarea spellcheck="false" id="textArea2" 
+                    onKeyDown="passID(this.id); processText(event, this);"
+                    onKeyUp="processTitle(event, this);"
+                        class="form-control"></textarea>
+                </div>
+
+            </div>
+
+            <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+                <div class="form-group">
+                    <textarea spellcheck="false" id="textArea3" 
+                    onKeyDown="passID(this.id); processText(event, this);"
+                    onKeyUp="processTitle(event, this);"
+                        class="form-control"></textarea>
+                </div>
+            </div>
+          </div>
     </div>
 
 {% endblock %}

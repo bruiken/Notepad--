@@ -1,4 +1,4 @@
-.backArea.form-control, #textArea {
+.backArea.form-control, #textArea, #textArea2, #textArea3 {
     position: absolute;
     padding: 0;
     line-height: 1.2em;
@@ -19,7 +19,7 @@
     word-wrap: normal;
   }
 
-#textArea {
+#textArea, #textArea2, #textArea3 {
     position: absolute;
     border-radius: 0;
     background-color: transparent;

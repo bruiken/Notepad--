@@ -1,9 +1,10 @@
 var isRequesting = false;
 var requestHighlight = false;
+var currentItem = 'textArea';
 
 $(() => {
     var backArea = document.querySelector('.backArea');
-    var textArea = document.getElementById('textArea');
+    var textArea = document.getElementById(currentItem);
     var displayArea = document.querySelector('.displayArea');
     displayArea.innerHTML = restoreText(textArea);
 
@@ -23,7 +24,7 @@ $(() => {
 });
 
 function selectedLanguage() {
-    var textArea = document.getElementById('textArea');
+    var textArea = document.getElementById(currentItem);
     processPost(textArea);
 }
 
