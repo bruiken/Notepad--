@@ -7,10 +7,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
         {% block styles %}
-            <!-- Our own css -->
-            <link rel="stylesheet" href="/static/style.css"></style>
             <!-- Bootstrap CSS -->
             {{ bootstrap.load_css() }}
+             <!-- Our own css -->
+            <link rel="stylesheet" href="/static/style.css">
+            <!-- Additional css -->
+            {% block additionalStyles %}
+            {% endblock additionalStyles %}
         {% endblock %}
 
         <title>{% block title %}{% endblock %} - Notepad--</title>
@@ -41,8 +44,12 @@
         {% endblock %}
         
         {% block scripts %}
-            <!-- Optional JavaScript -->
+            <!-- Bootstrap JavaScript -->
             {{ bootstrap.load_js() }}
-            <script src="/static/site.js"></script>
+            <!-- Our own JavaScript -->
+            <script src="/static/site.js"></script>  
+            <!-- Additional JavaScript -->
+            {% block additionalScripts %}
+            {% endblock %}
         {% endblock %}
     </body>

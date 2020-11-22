@@ -2,6 +2,12 @@
 
 {% block title %}Editor{% endblock %} 
 
+{% block additionalStyles %}
+{% if highlight %}
+<link rel="stylesheet" href="/static/highlight/index.css">
+{% endif %}
+{% endblock %}
+
 {% block menuitems %}
 {{super()}}
 <li class="nav-item dropdown">
@@ -18,15 +24,17 @@
 
 {% block content %}
     <input id="fileinput" type="file" class="custom-file-input d-none" onchange="fileLoad(this);" />
-
     <div class="container">
-        <textarea id="codeField" onKeyUp="processTitle(event, this);" onKeyDown="processText(event, this);" class="form-control" style="word-wrap: normal;"></textarea>
-        
-        <div class="d-flex justify-content-center mb-3"></div>
-            <div id="saved" style="display: none;" class="text-white bg-info rounded font-weight-bold p-2 px-4">Saved</div>
+        <div id=editor>
+            {% if highlight %}
+            {% include 'highlight/index.html' %}
+            {% endif %}
+            <textarea spellcheck="false" id="textArea" onKeyUp="processTitle(event, this);" onKeyDown="processText(event, this);"
+                class="form-control"></textarea>
         </div>
+        <div class="d-flex justify-content-center mb-3"></div>
+        <div id="saved" style="display: none;" class="text-white bg-info rounded font-weight-bold p-2 px-4">Saved</div>    
     </div>
-
     <div class="modal fade" id="chooseFileModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -46,4 +54,10 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block additionalScripts %}
+{% if highlight %}
+    <script src="/static/highlight/index.js"></script>
+{% endif %}
 {% endblock %}

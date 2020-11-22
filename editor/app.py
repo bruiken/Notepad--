@@ -1,6 +1,13 @@
 from flask import Flask, render_template, request, redirect
 from flask_bootstrap import Bootstrap
+from distutils.util import strtobool
+from dotenv import load_dotenv
 import os
+
+
+load_dotenv()
+
+feature_highlighting = bool(strtobool(os.getenv("USE_HIGHLIGHT")))
 
 app = Flask("test", root_path=os.path.join(os.getcwd(), 'editor'))
 Bootstrap(app)
@@ -13,11 +20,13 @@ def hello_world():
 
 @app.route('/editor')
 def editor():
-    return render_template('editor.html')
+    return render_template('editor.html', highlight=feature_highlighting)
 
 
-@app.route('/editor', methods=['POST'])
-def editor_post():
-    text = request.form['text']
-    processed_text = text.upper()
-    return processed_text
+if feature_highlighting:
+    print("Using feature: Syntax-Highlighting")
+
+    @app.route('/editor/highlight', methods=['POST'])
+    def editor_post():
+        from .features.highlight import SyntaxHighlight
+        return SyntaxHighlight(request)

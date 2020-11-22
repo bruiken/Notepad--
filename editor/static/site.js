@@ -2,8 +2,8 @@ var isSaved = true;
 var savedText = "";
 
 $(() => {
-    var codeField = document.getElementById('codeField');
-    codeField.value = restoreText(codeField);
+    var textArea = document.getElementById('textArea');
+    textArea.value = restoreText(textArea);
 });
 
 
@@ -39,11 +39,11 @@ function restoreText(textarea) {
 }
 
 function downloadfile(name){
-    var textField = document.getElementById("codeField");
+    var textArea = document.getElementById("textArea");
     var workElement = document.createElement("a");
     if ('download' in workElement) {
-        var text = restoreText(textField);
-        var file = new Blob([restoreText(textField)], {type: 'text/plain'});
+        var text = restoreText(textArea);
+        var file = new Blob([restoreText(textArea)], {type: 'text/plain'});
         workElement.href = URL.createObjectURL(file);
         workElement.download = name;
         document.body.appendChild(workElement);
@@ -78,10 +78,11 @@ function fileLoad(inputField){ // loads a file
     var file = document.getElementById("fileinput").files[0];
     var reader = new FileReader();
     reader.onload = function (e) {
-        var textArea = document.getElementById("codeField");
+        var textArea = document.getElementById("textArea");
         textArea.value = e.target.result;
         isSaved = textArea.value == savedText;
-        setTitle(isSaved);    
+        setTitle(isSaved);
+        $(document).trigger('fileLoad_done');
     };
     reader.readAsText(file);
 }
