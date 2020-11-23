@@ -3,9 +3,9 @@
 {% block title %}Editor{% endblock %} 
 
 {% block additionalStyles %}
-{% if highlight %}
-<link rel="stylesheet" href="/static/highlight/index.css">
-{% endif %}
+{% for sheet in feature_sheets %}
+    <link rel="stylesheet" href="{{sheet}}">
+{% endfor %}
 {% endblock %}
 
 {% block menuitems %}
@@ -26,9 +26,9 @@
     <input id="fileinput" type="file" class="custom-file-input d-none" onchange="fileLoad(this);" />
     <div class="container">
         <div id=editor>
-            {% if highlight %}
-            {% include 'highlight/index.html' %}
-            {% endif %}
+            {% for html in editor_html %}
+            {% include html %}
+            {% endfor %}
             <textarea spellcheck="false" id="textArea" onKeyUp="processTitle(event, this);" onKeyDown="processText(event, this);"
                 class="form-control"></textarea>
         </div>
@@ -57,7 +57,7 @@
 {% endblock %}
 
 {% block additionalScripts %}
-{% if highlight %}
-    <script src="/static/highlight/index.js"></script>
-{% endif %}
+{% for script in feature_scripts %}
+    <script src="{{script}}"></script>
+{% endfor %}
 {% endblock %}
