@@ -1,32 +1,47 @@
 from flask import Flask, render_template, request, redirect
 from flask_bootstrap import Bootstrap
-from distutils.util import strtobool
-from dotenv import load_dotenv
 import os
+import aop
+from aop import extensible
 
 
-load_dotenv()
-
-feature_highlighting = bool(strtobool(os.getenv("USE_HIGHLIGHT")))
-
-app = Flask("test", root_path=os.path.join(os.getcwd(), 'editor'))
+app = Flask("Notepad--", root_path=os.path.join(os.getcwd(), 'editor'))
 Bootstrap(app)
 
 
-@app.route('/')
-def hello_world():
-    return redirect('/editor')
+@extensible
+def define_endpoints(flaskapp):
+    @flaskapp.route('/')
+    def home():
+        return redirect('/editor')
+
+    @flaskapp.route('/editor')
+    def editor():
+        return render_template('editor.html',
+                               feature_sheets=feature_sheets([]),
+                               feature_scripts=feature_scripts([]),
+                               editor_html=feature_editor_htmls([]),
+                               **feature_states({}))
 
 
-@app.route('/editor')
-def editor():
-    return render_template('editor.html', highlight=feature_highlighting)
+@extensible
+def feature_states(features):
+    return features
 
 
-if feature_highlighting:
-    print("Using feature: Syntax-Highlighting")
+@extensible
+def feature_sheets(sheets):
+    return sheets
 
-    @app.route('/editor/highlight', methods=['POST'])
-    def editor_post():
-        from .features.highlight import SyntaxHighlight
-        return SyntaxHighlight(request)
+
+@extensible
+def feature_scripts(scripts):
+    return scripts
+
+
+@extensible
+def feature_editor_htmls(htmls):
+    return htmls
+
+
+define_endpoints(app)
