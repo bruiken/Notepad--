@@ -13,12 +13,12 @@ if feature_line_numbers:
 
     @extends('feature_sheets')
     def highlight_css(sheets):
-        sheets.append('/static/highlight/index.css')
+        sheets.append('/static/line_numbers/index.css')
 
     @extends('feature_scripts')
     def highlight_js(scripts):
-        scripts.append('/static/highlight/index.js')
+        scripts.append('/static/line_numbers/index.js')
 
-    @extends('feature_page_htmls')
-    def line_number_page_html(htmls):
+    @extends('feature_pre_editor_htmls')
+    def line_number_pre_editor_html(htmls):
         htmls.append('line_numbers/index.html')

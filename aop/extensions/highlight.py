@@ -35,6 +35,10 @@ if feature_highlighting:
     def highlight_editor_html(htmls):
         htmls.append('/highlight/index.html')
 
+    @extends('feature_page_htmls')
+    def highlight_page_html(htmls):
+        htmls.append('/highlight/language_select.html')
+
     def syntax_highlight(request):
         language = request.form['language']
         text = request.form['text']
