@@ -17,7 +17,6 @@ $(() => {
 });
 
 function textAreaChanged() {
-    console.log('changed');
     const new_nr_lines = $editor_area.val().split(/\r\n|\r|\n/).length;
     if (new_nr_lines !== nr_lines) {
         nr_lines = new_nr_lines;
