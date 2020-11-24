@@ -2,25 +2,36 @@ var isRequesting = false;
 var requestHighlight = false;
 
 $(() => {
-    var backArea = document.querySelector('.backArea');
     var textArea = document.getElementById('textArea');
     var displayArea = document.querySelector('.displayArea');
     displayArea.innerHTML = restoreText(textArea);
 
     textArea.addEventListener("scroll", function () {
-        backArea.scrollTop = textArea.scrollTop;
-        backArea.scrollLeft = textArea.scrollLeft;
+        equalize_scrolls(displayArea, textArea);
     });
 
     textArea.addEventListener("input", function () {
+        equalize_scrolls(displayArea, textArea);
         processPost(this);
     });
 
+    textArea.addEventListener("blur", function () {
+        equalize_scrolls(displayArea, textArea);
+    });
+
     $(document).bind('fileLoad_done', () => {
+        equalize_scrolls(displayArea, textArea);
         processPost(textArea);
     });
+
+    equalize_scrolls(displayArea, textArea);
     processPost(textArea);
 });
+
+function equalize_scrolls(displayArea, textArea) {
+    displayArea.scrollTop = textArea.scrollTop;
+    displayArea.scrollLeft = textArea.scrollLeft;
+}
 
 function selectedLanguage() {
     var textArea = document.getElementById('textArea');

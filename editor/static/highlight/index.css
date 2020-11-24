@@ -1,18 +1,19 @@
-.backArea.form-control, #textArea {
+.displayArea.form-control, #textArea {
     position: absolute;
     line-height: 1.2em;
     font-family: Consolas, 'Courier New', Courier, monospace;
     max-height: inherit;
     max-width: inherit;
     height: 70vh;
-    word-wrap: normal;
+    white-space: pre;
 }
 
 .displayArea {
     overflow: hidden;
+    padding: 0;
     white-space: pre-wrap;
     word-wrap: normal;
-  }
+}
 
 #textArea {
     position: absolute;
@@ -24,7 +25,7 @@
     resize: none;
 }
 
-.backArea.form-control {
+.displayArea.form-control {
     z-index: 1;
     border: 2px solid transparent;
     overflow: auto;

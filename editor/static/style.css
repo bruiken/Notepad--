@@ -12,4 +12,9 @@ textarea.form-control {
     font-family: Consolas, 'Courier New', Courier, monospace;
     resize: none;
     height: 100%;
+    padding: 0;
+}
+
+#textArea {
+    white-space: pre;
 }
