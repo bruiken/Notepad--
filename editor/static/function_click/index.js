@@ -1,8 +1,8 @@
 // variable to keep track of state of control button
 var control_being_pressed = false;
 // variables to keep track of the locations of functions and the calls to them
-var function_locations = [];
-var call_locations = [];
+var function_locations;
+var call_locations;
 
 // variables to reuse jquery and html elements
 var textArea, displayArea;
@@ -67,6 +67,8 @@ function control_pressed() {
     var func_def_hits = [...codeValue.matchAll(re2)];
     var func_call_hits = [...codeValue.matchAll(re)];
     func_call_hits.reverse();
+    function_locations = [];
+    call_locations = [];
     for (const func of func_call_hits) {
         codeValue = surround_with_span(codeValue, func.index, func[1].length);
         call_locations.push({name: func[1], length: func[1].length, index: func.index});
@@ -152,7 +154,7 @@ function click_with_control() {
     if (!called_func) return;
     var defined_func = get_defined_function(called_func.name);
     if (!defined_func) {
-        warnNotification('No function definition found!')
+        warnNotification('No function definition found!');
         return;
     }
     scrollTo(defined_func.index);
