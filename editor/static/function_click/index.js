@@ -135,7 +135,10 @@ function click_with_control() {
     var called_func = get_called_function(cursorPosition);
     if (!called_func) return;
     var defined_func = get_defined_function(called_func.name);
-    if (!defined_func) return;
+    if (!defined_func) {
+        warnNotification('No function definition found!')
+        return;
+    }
     scrollTo(defined_func.index);
     textArea.focus();
     $textArea.prop('selectionStart', defined_func.index);
