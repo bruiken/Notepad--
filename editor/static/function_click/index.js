@@ -4,13 +4,15 @@ var control_being_pressed = false;
 var function_locations = [];
 var call_locations = [];
 
+// variables to reuse jquery and html elements
 var textArea, displayArea;
 var $textArea;
 
 /**
- * 
+ * Function gets called when the page is loaded
  */
 $(() => {
+    // set the jquery and html elements
     textArea = document.getElementById('textArea');
     displayArea = document.getElementById('function-click-area');
     $textArea = $('#textArea');
@@ -52,7 +54,9 @@ $(() => {
 });
 
 /**
- * 
+ * Function that gets called when control is pressed on the input field.
+ * This searches for all the function definition and calls using some regex. 
+ * These values get saved for when the user clicks a function call with control being pressed.
  */
 function control_pressed() {
     if (control_being_pressed) return;
@@ -74,10 +78,11 @@ function control_pressed() {
 }
 
 /**
- * 
- * @param {string} fullCode sdasdf
- * @param {number} index 
- * @param {number} length 
+ * Surrounds the element at the given index and length with a span. 
+ * This span has a style such that it will get underlined. 
+ * @param {string} fullCode The full code text
+ * @param {number} index The index at which the span should begin
+ * @param {number} length The length of the span
  */
 function surround_with_span(fullCode, index, length) {
     const pre_span = '<span class="ctrl-hovering">';
@@ -90,8 +95,10 @@ function surround_with_span(fullCode, index, length) {
 }
 
 /**
- * 
- * @param {number} cursorPos 
+ * Finds the called function that is at a given position. 
+ * This is calculated using a list that is built up in the control_pressed function.
+ * @param {number} cursorPos The position of the function call
+ * @returns {boolean|object} the custom function object when it is found, false otherwise. 
  */
 function get_called_function(cursorPos) {
     for (const func of call_locations) {
@@ -103,8 +110,9 @@ function get_called_function(cursorPos) {
 }
 
 /**
- * 
- * @param {string} func_name 
+ * Finds the custom function object with the given name.
+ * @param {string} func_name The name of the function
+ * @returns {boolean|object} the custom function object when it is found, false otherwise. 
  */
 function get_defined_function(func_name) {
     for (const func of function_locations) {
@@ -115,6 +123,10 @@ function get_defined_function(func_name) {
     return false;
 }
 
+/**
+ * Scrolls the textarea to the given position.
+ * @param {number} position The position to scroll to.
+ */
 function scrollTo(position) {
     if (!textArea) { return; }
     if (position < 0) { return; }
@@ -128,7 +140,11 @@ function scrollTo(position) {
 }
 
 /**
- * 
+ * Function that gets called when the user clicks in the code with control being pressed.
+ * This first looks for the function call at the cursor position.
+ * If one is found, then it looks for the corresponding function definition.
+ * If one is found, the textarea is scrolled to that point and the definition is selected.
+ * If there was no definition found, a notification will be raised to tell the user about this.
  */
 function click_with_control() {
     var cursorPosition = $textArea.prop("selectionStart");
@@ -146,7 +162,9 @@ function click_with_control() {
 }
 
 /**
- * 
+ * Function that gets called when the user lets go of the control button.
+ * It resets the text in the displayarea to the text in the textarea, this makes sure
+ * that all the underlined elements are gone. 
  */
 function control_released() {
     if (!control_being_pressed) return;
@@ -155,7 +173,9 @@ function control_released() {
 }
 
 /**
- * 
+ * Equalizes the scroll values between the display- and textarea.
+ * @param {HTMLDivElement} displayArea The displayarea div
+ * @param {HTMLTextAreaElement} textArea The textarea element
  */
 function equalize_scrolls(displayArea, textArea) {
     displayArea.scrollTop = textArea.scrollTop;
@@ -163,7 +183,9 @@ function equalize_scrolls(displayArea, textArea) {
 }
 
 /**
- * 
+ * Equalizes the text value between the display- and textarea.
+ * @param {HTMLDivElement} displayArea The displayarea div
+ * @param {HTMLTextAreaElement} textArea The textarea element
  */
 function copy_text(displayArea, textArea) {
     displayArea.innerHTML = textArea.value;
