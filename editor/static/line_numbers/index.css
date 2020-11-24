@@ -1,0 +1,20 @@
+.line-number {
+    line-height: 1.2em;
+    color: gray;
+    font-family: Consolas, 'Courier New', Courier, monospace;
+    text-align: right;
+}
+
+.line-numbering {
+    float: left;
+    width: 40px;
+    max-height: 70vh;
+    border-right: solid darkgray 2px;
+    border-top: solid white 1px;
+    border-bottom: solid white 1px;
+    padding-top: .375rem;
+    padding-bottom: .375rem;
+    padding-right: .4rem;
+    overflow-y: hidden;
+    pointer-events: none;
+}

@@ -10,6 +10,7 @@
 
 {% block menuitems %}
 {{super()}}
+<!-- Menu navbar -->
 <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         File
@@ -24,17 +25,29 @@
 
 {% block content %}
     <input id="fileinput" type="file" class="custom-file-input d-none" onchange="fileLoad(this);" />
+    <!-- Editor textarea container -->
     <div class="container">
-        <div id=editor>
-            {% for html in editor_html %}
+        {% for html in page_html %}
+        {% include html %}
+        {% endfor %}
+
+        <div style="display: flex;">
+            {% for html in pre_editor_html %}
             {% include html %}
             {% endfor %}
-            <textarea spellcheck="false" id="textArea" onKeyUp="processTitle(event, this);" onKeyDown="processText(event, this);"
-                class="form-control"></textarea>
+            <div id=editor style="flex-grow: 1;">
+                {% for html in editor_html %}
+                {% include html %}
+                {% endfor %}
+                <textarea spellcheck="false" id="textArea" onKeyUp="processTitle(event, this);" onKeyDown="processText(event, this);"
+                    class="form-control"></textarea>
+            </div>
         </div>
         <div class="d-flex justify-content-center mb-3"></div>
         <div id="saved" style="display: none;" class="text-white bg-info rounded font-weight-bold p-2 px-4">Saved</div>    
     </div>
+    
+    <!-- Select file dialog box -->
     <div class="modal fade" id="chooseFileModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
