@@ -61,8 +61,8 @@ $(() => {
 function control_pressed() {
     if (control_being_pressed) return;
     control_being_pressed = true;
-    let re = /([a-zA-Z0-9-_]+) *\([^\)]*\)(?![ \n\r\t]*{| *:)/gm;
-    let re2 = /([a-zA-Z0-9-_]+) *\([^\)]*\)(?=[ \n\r\t]*{| *:)/gm;
+    let re = /([a-zA-Z0-9-_]+) *\([^\)]*\)(?![ \n\r\t]*{|[ \n\r\t]*:)/gm;
+    let re2 = /([a-zA-Z0-9-_]+) *\([^\)]*\)(?=[ \n\r\t]*{|[ \n\r\t]*:)/gm;
     var codeValue = textArea.value;
     var func_def_hits = [...codeValue.matchAll(re2)];
     var func_call_hits = [...codeValue.matchAll(re)];
