@@ -1,4 +1,4 @@
-.displayArea.form-control, #textArea {
+#highlight-area.form-control, #textArea {
     position: absolute;
     line-height: 1.2em;
     font-family: Consolas, 'Courier New', Courier, monospace;
@@ -8,7 +8,7 @@
     white-space: pre;
 }
 
-.displayArea {
+#highlight-area {
     overflow: hidden;
     padding: 0;
     white-space: pre-wrap;
@@ -25,7 +25,7 @@
     resize: none;
 }
 
-.displayArea.form-control {
+#highlight-area.form-control {
     z-index: 1;
     border: 2px solid transparent;
     overflow: auto;
