@@ -131,7 +131,6 @@ if feature_compiling:
             """
             return ['%s %s' % (python_path, file_path)]
 
-        #TODO Option for compiling a java project instead of file through 'javac *.java'
         @staticmethod
         def java_command_creator(java, file_path):
             """
@@ -173,8 +172,7 @@ if feature_compiling:
                     return -1, result.stderr.decode('utf-8')
                 return 0, result.stdout.decode('utf-8')
             except UndefinedLanguageError as err:
-                # print('Language undefined')
+                # Error code -5 chosen semi arbitrarily
                 return -5, err
             except UndefinedFileError as err:
-                # print('File not found')
                 return -5, err
