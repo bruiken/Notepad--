@@ -16,6 +16,10 @@ if feature_compiling:
     def compilation_endpoints(flaskapp):
         @flaskapp.route('/editor/compile', methods=['POST'])
         def editor_post():
+            """
+            Selects a interpreter or compiler and returns the output as json if successfully compiled.
+            Returns the output with the appropriate error otherwise.
+            """
             cs = CompilerSelector('languages.json')
             filepath = request.form.get('filepath')
             language = request.form.get('language')
@@ -50,43 +54,60 @@ if feature_compiling:
 
     class Error(Exception):
         """
-        Base class for other exceptions
+        Base class for other exceptions.
         """
         pass
 
     class UndefinedLanguageError(Error):
         """
-        Raised when compile language is not defined in 'languages.json'
+        Raised when compile language is not defined in 'languages.json'.
         """
         @staticmethod
         def __str__():
+            """
+            String created for UndefinedLanguageError objects.
+            """
             return 'UndefinedLanguageError'
 
     class UndefinedFileError(Error):
         """
-        Raised when filepath is not valid
+        Raised when file path is not valid.
         """
         @staticmethod
         def __str__():
+            """
+            String created for UndefinedFileError objects.
+            """
             return 'UndefinedFileError'
 
     class CompilerSelector:
         """
-        
+        Class for selecting an interpreter or compiler and to run the given file.
         """
         def __init__(self, json_path):
+            """
+            Initializer for the CompilerSelector class.
+            :param json_path: The path to the json file that contains the languages and their respective attributes.
+            """
             self.language_dict = self.parse_json(json_path)
 
         @staticmethod
         def parse_json(json_path):
             """
+            Parses and returns the json from the given path.
+            :param json_path: The path to the json file to be parsed.
+            :return: The parsed json file as a dictionary.
             """
             with open (json_path) as json_file:
                 return json.load(json_file)
         
         def compiler_func_selector(self, language, file_path):
             """
-            docstring
+            Selects the appropriate interpreter / compiler for the language given, and calls the corresponding
+            function for that language to create shell arguments.
+            :param language: The language to be interpreted / compiled.
+            :param file_path: The path to the file that needs to be interpreted / compiled.
+            :return: A list of shell arguments to be executed for the file to be interpreted / compiled and run.
             """
             if not os.path.exists(file_path):
                 raise UndefinedFileError
@@ -106,6 +127,10 @@ if feature_compiling:
         @staticmethod
         def python_command_creator(python_path, file_path):
             """
+            Creates the shell arguments to execute the file on the given path location with python.
+            :param python_path: The python interpreter path (can be 'py').
+            :param file_path: The path of the file to be executed with python.
+            :return: The list of arguments to be executed by the shell.
             """
             return ['%s %s' % (python_path, file_path)]
 
@@ -113,6 +138,10 @@ if feature_compiling:
         @staticmethod
         def java_command_creator(java, file_path):
             """
+            Creates the shell arguments to execute the file on the given path location with java.
+            :param java: The java compiler path.
+            :param file_path: The path of the file to be executed with java.
+            :return: The list of arguments to be executed by the shell.
             """
             compiler = java.get('compiler')
             compiler_path = java.get('compiler_path')
@@ -122,11 +151,21 @@ if feature_compiling:
         @staticmethod
         def js_command_creator(node_path, file_path):
             """
+            Creates the shell arguments to execute the file on the given path location with node js.
+            :param node_path: The js interpreter path.
+            :param file_path: The path of the file to be executed with js.
+            :return: The list of arguments to be executed by the shell.
             """
             return ['%s %s' % (node_path, file_path)]
 
         def compile_and_run(self, language, file_path):
             """
+            Tries to get a list of shell arguments to execute and execute them in sequence. Then returns
+            the appropriate shell output including stdout and stderr. Catches exceptions for unknown languages
+            and files.
+            :param language: The language for which the shell arguments need to be created.
+            :param file_path: The path to the file that needs to be executed.
+            :return: The appropriate shell output or error messages.
             """
             try:
                 commands = self.compiler_func_selector(language, file_path)
