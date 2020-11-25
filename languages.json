@@ -1,6 +1,6 @@
 {
     "python": {
-        "compiler_path": "\"D:/Programming/python.exe\""
+        "compiler_path": "python"
     },
     "java": {
         "compiler": "compiler", 
