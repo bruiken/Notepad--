@@ -36,10 +36,6 @@ if feature_compiling:
     def feature_compile(features):
         features['compile'] = True
 
-    @extends('feature_sheets')
-    def compile_css(sheets):
-        sheets.append('/static/compile/index.css')
-
     @extends('feature_scripts')
     def compile_js(scripts):
         scripts.append('/static/compile/index.js')
