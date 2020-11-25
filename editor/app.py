@@ -23,6 +23,8 @@ def define_endpoints(flaskapp):
                                editor_html=feature_editor_htmls([]),
                                pre_editor_html=feature_pre_editor_htmls([]),
                                page_html=feature_page_htmls([]),
+                               menu_item_html=feature_menu_item_htmls([]),
+                               modal_html=feature_modal_htmls([]),
                                **feature_states({}))
 
 
@@ -55,6 +57,13 @@ def feature_pre_editor_htmls(htmls):
 def feature_page_htmls(htmls):
     return htmls
 
+@extensible
+def feature_menu_item_htmls(htmls):
+    return htmls
+
+@extensible
+def feature_modal_htmls(htmls):
+    return htmls
 
 define_endpoints(app)
 
