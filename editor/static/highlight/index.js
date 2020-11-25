@@ -3,7 +3,7 @@ var requestHighlight = false;
 
 $(() => {
     var textArea = document.getElementById('textArea');
-    var displayArea = document.querySelector('.displayArea');
+    var displayArea = document.getElementById('highlight-area');
     displayArea.innerHTML = restoreText(textArea);
 
     textArea.addEventListener("scroll", function () {
@@ -44,7 +44,7 @@ function processPost(textarea) {
         return;
     }
     isSaved = textarea.value == savedText;
-    var displayArea = document.querySelector(".displayArea");
+    var displayArea = document.getElementById("highlight-area");
     var language = document.getElementById("languageSelect");
     const data = {
         language: language.value,

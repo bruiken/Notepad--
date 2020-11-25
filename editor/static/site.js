@@ -8,7 +8,7 @@ $(() => {
 
 
 function saveText(textarea) {
-    savedNotification();
+    infoNotification('Saved');
     localStorage.setItem(textarea.id, textarea.value);
     savedText = textarea.value;
     isSaved = true;
@@ -24,10 +24,16 @@ function setTitle(isSaved) {
     document.title = title;
 }
 
-
-function savedNotification() {
+function infoNotification(text) {
+    $('#saved').text(text);
     $('#saved').fadeIn(300).delay(1500).fadeOut(400);
 }
+
+function warnNotification(text) {
+    $('#warning').text(text);
+    $('#warning').fadeIn(300).delay(1500).fadeOut(400);
+}
+
 
 function restoreText(textarea) {
     var savedValue = localStorage.getItem(textarea.id);

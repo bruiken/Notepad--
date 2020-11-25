@@ -1,0 +1,43 @@
+.ctrl-hovering {
+    text-decoration: underline;
+    cursor: pointer;
+    text-decoration-color: black;
+}
+
+#function-click-area {
+    color: transparent;
+    background-color: transparent;
+    text-decoration-color: black;
+}
+
+.displayArea.form-control, #textArea {
+    position: absolute;
+    line-height: 1.2em;
+    font-family: Consolas, 'Courier New', Courier, monospace;
+    max-height: inherit;
+    max-width: inherit;
+    height: 70vh;
+    white-space: pre;
+}
+
+.displayArea {
+    overflow: hidden;
+    padding: 0;
+    white-space: pre-wrap;
+    word-wrap: normal;
+}
+
+#textArea {
+    border-radius: 0;
+    background-color: transparent;
+    caret-color: #555555;
+    z-index: 2;
+    resize: none;
+}
+
+.displayArea.form-control {
+    z-index: 1;
+    border: 2px solid transparent;
+    overflow: auto;
+    pointer-events: none;
+}
