@@ -5,7 +5,6 @@ from aop.aop import extends
 feature_compiling = bool(strtobool(os.getenv("USE_COMPILING")))
 
 if feature_compiling:
-    import sys
     import json
     import subprocess
     from flask import request, jsonify 
@@ -23,13 +22,14 @@ if feature_compiling:
             cs = CompilerSelector('languages.json')
             filepath = request.form.get('filepath')
             language = request.form.get('language')
-            res = cs.compile_and_run(language, filepath)
-            if isinstance(res, UndefinedFileError) or isinstance(res, UndefinedLanguageError):
-                print(res)
-                return jsonify(success=False, message="{} caught.".format(str(res)))
-            elif res[0] == -1:
-                return jsonify(success=False, message="stderr: {}".format(res[1]))
-            return jsonify(success=True, message="stdout: {}".format(res[1]))
+            returncode, message = cs.compile_and_run(language, filepath)
+            if returncode == -5:
+                return jsonify(success=False, message='Error code {}: {} caught.'.format(str(returncode), str(message)))
+            elif returncode == -1:
+                return jsonify(success=False, message='stderr: {}'.format(message))
+            elif returncode == 1:
+                return jsonify(success=False, message='Failed to compile: {}'.format(message))
+            return jsonify(success=True, message='stdout: {}'.format(message))
         return editor_post 
 
     @extends('feature_states')
@@ -98,7 +98,7 @@ if feature_compiling:
             :param json_path: The path to the json file to be parsed.
             :return: The parsed json file as a dictionary.
             """
-            with open (json_path) as json_file:
+            with open(json_path) as json_file:
                 return json.load(json_file)
         
         def compiler_func_selector(self, language, file_path):
@@ -112,7 +112,6 @@ if feature_compiling:
             if not os.path.exists(file_path):
                 raise UndefinedFileError
             file_path = '"{}"'.format(file_path)
-            print(file_path)
             if language not in self.language_dict:
                 raise UndefinedLanguageError
             if language == "python":
@@ -121,8 +120,6 @@ if feature_compiling:
                 return self.java_command_creator(self.language_dict.get('java'), file_path)
             if language == "javascript":
                 return self.js_command_creator(self.language_dict.get('javascript').get('compiler_path'), file_path)
-            return
-
 
         @staticmethod
         def python_command_creator(python_path, file_path):
@@ -145,8 +142,7 @@ if feature_compiling:
             """
             compiler = java.get('compiler')
             compiler_path = java.get('compiler_path')
-            # TODO still needs compilation and execution
-            return ['%s %s' % (compiler, compiler_path)]
+            return ['%s %s' % (compiler, compiler_path), '%s %s' % (compiler, file_path)]
         
         @staticmethod
         def js_command_creator(node_path, file_path):
@@ -171,13 +167,14 @@ if feature_compiling:
                 commands = self.compiler_func_selector(language, file_path)
                 execute = ' ; '.join(commands)
                 result = subprocess.run(execute, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-                if result.stderr is None:
-                    print(result.stdout)
-                    return (0, result.stdout)
-                return (-1, result.stderr)
+                if result.returncode == 1:
+                    return 1, result.stdout.decode('utf-8')
+                if result.stderr is not None:
+                    return -1, result.stderr.decode('utf-8')
+                return 0, result.stdout.decode('utf-8')
             except UndefinedLanguageError as err:
-                print('Language undefined')
-                return err
+                # print('Language undefined')
+                return -5, err
             except UndefinedFileError as err:
-                print('File not found')
-                return err
+                # print('File not found')
+                return -5, err
