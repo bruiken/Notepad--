@@ -1,0 +1,16 @@
+{
+    "python": {
+        "compiler_path": "\"D:/Programming/python.exe\""
+    },
+    "java": {
+        "compiler": "compiler", 
+        "compiler_path": "path"
+    },
+    "javascript": {
+        "compiler_path": "test"
+    },
+    "c++": {
+        "compiler": "compiler",
+        "compiler_path": "path"
+    }
+}
