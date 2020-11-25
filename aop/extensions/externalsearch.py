@@ -10,10 +10,6 @@ if feature_external_search:
     @extends('feature_states')
     def external_search(features):
         features['external-search'] = True
-    
-    @extends('feature_sheets')
-    def external_search_css(sheets):
-        sheets.append('/static/external_search/index.css')
 
     @extends('feature_scripts')
     def external_search_js(scripts):
