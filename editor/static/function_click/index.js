@@ -136,8 +136,9 @@ function scrollTo(position) {
     var body = textArea.value;
     if (body) {
         textArea.value = body.substring(0, position);
-        textArea.scrollTop = position;
+        const saved_pos = textArea.scrollTop;
         textArea.value = body;
+        textArea.scrollTop = saved_pos;
     }
 }
 
