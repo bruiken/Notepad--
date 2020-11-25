@@ -15,6 +15,6 @@ if feature_external_search:
     def external_search_js(scripts):
         scripts.append('/static/external_search/index.js')
 
-    @extends('feature_editor_htmls')
+    @extends('feature_page_htmls')
     def external_search_html(htmls):
         htmls.append('/external_search/index.html')
