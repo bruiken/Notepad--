@@ -1,6 +1,5 @@
 .line-number {
     line-height: 1.2em;
-    color: gray;
     font-family: Consolas, 'Courier New', Courier, monospace;
     text-align: right;
 }
@@ -9,9 +8,9 @@
     float: left;
     width: 40px;
     max-height: 70vh;
-    border-right: solid darkgray 2px;
-    border-top: solid white 1px;
-    border-bottom: solid white 1px;
+    border-right: 2px transparent;
+    border-top: 1px transparent;
+    border-bottom: 1px transparent;
     padding-right: .4rem;
     overflow-y: hidden;
     pointer-events: none;
