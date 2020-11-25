@@ -2,11 +2,12 @@ from flask import Flask, render_template, request, redirect
 from flask_bootstrap import Bootstrap
 import os
 import aop
-from aop import extensible
+from aop import extensible, check_errors
 
 
 app = Flask("Notepad--", root_path=os.path.join(os.getcwd(), 'editor'))
 Bootstrap(app)
+
 
 @extensible
 def define_endpoints(flaskapp):
@@ -56,3 +57,6 @@ def feature_page_htmls(htmls):
 
 
 define_endpoints(app)
+
+# check aop errors
+check_errors()
