@@ -6,7 +6,9 @@ possible_features = [
                      'aop.extensions.linenumbers',
                      'aop.extensions.functionclick',
                      'aop.extensions.externalsearch',
-                     'aop.extensions.coderunner']
+                     'aop.extensions.coderunner',
+                     'aop.extensions.themes']
+>>>>>>> 22df09a... Add themes to aop
 
 for feature in possible_features:
     try:
