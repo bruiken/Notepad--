@@ -1,7 +1,3 @@
-import aop.extensions.highlight
-import aop.extensions.linenumbers
-import aop.extensions.functionclick
-import aop.extensions.externalsearch
 from importlib import import_module
 
 possible_features = ['aop.extensions.highlight',
