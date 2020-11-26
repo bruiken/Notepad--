@@ -1,6 +1,6 @@
 function selectedText(){
-    var text = "";
-    text = window.getSelection().toString();
+    var textarea = document.getElementById('textArea');
+    var text = textarea.value.slice(textarea.selectionStart, textarea.selectionEnd);
     return text;
 }
 
