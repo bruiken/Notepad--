@@ -21,6 +21,6 @@ function search(site) {
             "&restrict_sr=on&sort=relevance&t=all");
             break;
         default: 
-            alert("No site found");
+            throw ("No site found");
     }
 }
