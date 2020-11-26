@@ -22,9 +22,9 @@ function search(site) {
         case 'reddit':
             window.open
             ("https://www.reddit.com/r/ProgrammerHumor/search?q=" + selectedText() + 
-            "&restrict_sr=on&sort=relevance&t=all")
+            "&restrict_sr=on&sort=relevance&t=all");
+            break;
         default: 
-            console.alert("No site found")
-
+            alert("No site found");
     }
 }
