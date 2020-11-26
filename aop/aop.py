@@ -5,6 +5,9 @@ from collections import defaultdict
 # dictionary to keep track of which functions are extended
 extensions = defaultdict(list)
 
+# list to keep track of functions that are extensible
+extensible_functions = []
+
 
 class Extension:
     """
@@ -20,6 +23,10 @@ class Extension:
                " (applies " + ("after" if self.after else "before") + ")"
 
 
+class UndefinedFunctionException(Exception):
+    pass
+
+
 def extensible(x):
     """
     Enables a function to be extended by some other function.
@@ -27,6 +34,8 @@ def extensible(x):
     The function will also get a function (extendedby) which will return a
     list of all the functions that extend it.
     """
+    extensible_functions.append(x.__name__)
+
     @wraps(x)
     def wrapper(*args, **kwargs):
         if x.__name__ in extensions:
@@ -62,3 +71,20 @@ def extends(func_to_extend, after=False):
             Extension(wrapper, func_to_extend, after))
         return wrapper
     return decorator
+
+
+def check_errors():
+    """
+    Checks for all the extended functions if they extend an actual existing
+    function. If not, it throws an exception.
+    """
+    for key, exts in extensions.items():
+        if key not in extensible_functions:
+            wrapper_extension = extensions[key][0]
+            wrapper_name = wrapper_extension.func.__name__
+            raise UndefinedFunctionException(
+                'Function {} extends undefined function {}'.format(
+                    wrapper_name,
+                    key
+                )
+            )
