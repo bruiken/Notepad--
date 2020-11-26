@@ -2,51 +2,51 @@ import os
 from distutils.util import strtobool
 from aop.aop import extends
 
-feature_compiling = bool(strtobool(os.getenv("USE_COMPILING")))
+feature_code_runner = bool(strtobool(os.getenv("USE_CODE_RUNNER")))
 
-if feature_compiling:
+if feature_code_runner:
     import json
     import subprocess
     from flask import request, jsonify 
     
-    print("Using feature: Local-Compilation")
+    print("Using feature: Code Runner")
     
     @extends('define_endpoints', after=True)
     def compilation_endpoints(flaskapp):
-        @flaskapp.route('/editor/compile', methods=['POST'])
+        @flaskapp.route('/editor/code_runner', methods=['POST'])
         def editor_post():
             """
-            Selects a interpreter or compiler and returns the output as json if successfully compiled.
-            Returns the output with the appropriate error otherwise.
+            Selects a interpreter or compiler and runs the code at a path. Returns the output as json
+            if successfully compiled. Returns the output with the appropriate error otherwise.
             """
-            cs = CompilerSelector('languages.json')
+            crs = CodeRunnerSelector('languages.json')
             filepath = request.form.get('filepath')
             language = request.form.get('language')
-            returncode, message = cs.compile_and_run(language, filepath)
+            returncode, message = crs.run_code(language, filepath)
             if returncode == -5:
                 return jsonify(success=False, message='Error code {}: {} caught.'.format(str(returncode), str(message)))
             elif returncode == -1:
                 return jsonify(success=False, message='stderr: {}'.format(message))
             elif returncode == 1:
-                return jsonify(success=False, message='Failed to compile: {}'.format(message))
+                return jsonify(success=False, message='Failed to code_runner: {}'.format(message))
             return jsonify(success=True, message='stdout: {}'.format(message))
         return editor_post 
 
     @extends('feature_states')
-    def feature_compile(features):
-        features['compile'] = True
+    def feature_code_runner_code(features):
+        features['code_runner'] = True
 
     @extends('feature_scripts')
-    def compile_js(scripts):
-        scripts.append('/static/compile/index.js')
+    def code_runner_js(scripts):
+        scripts.append('/static/code_runner/index.js')
 
     @extends('feature_menu_item_htmls')
-    def compile_menu_item_html(htmls):
-        htmls.append('/compile/index.html')
+    def code_runner_menu_item_html(htmls):
+        htmls.append('/code_runner/index.html')
 
     @extends('feature_modal_htmls')
-    def compile_modal_html(htmls):
-        htmls.append('/compile/modal.html')
+    def code_runner_modal_html(htmls):
+        htmls.append('/code_runner/modal.html')
 
     class Error(Exception):
         """
@@ -56,7 +56,7 @@ if feature_compiling:
 
     class UndefinedLanguageError(Error):
         """
-        Raised when compile language is not defined in 'languages.json'.
+        Raised when interpretor / compile language is not defined in 'languages.json'.
         """
         @staticmethod
         def __str__():
@@ -76,13 +76,13 @@ if feature_compiling:
             """
             return 'UndefinedFileError'
 
-    class CompilerSelector:
+    class CodeRunnerSelector:
         """
         Class for selecting an interpreter or compiler and to run the given file.
         """
         def __init__(self, json_path):
             """
-            Initializer for the CompilerSelector class.
+            Initializer for the CodeRunnerSelector class.
             :param json_path: The path to the json file that contains the languages and their respective attributes.
             """
             self.language_dict = self.parse_json(json_path)
@@ -149,7 +149,7 @@ if feature_compiling:
             """
             return ['%s %s' % (node_path, file_path)]
 
-        def compile_and_run(self, language, file_path):
+        def run_code(self, language, file_path):
             """
             Tries to get a list of shell arguments to execute and execute them in sequence. Then returns
             the appropriate shell output including stdout and stderr. Catches exceptions for unknown languages
@@ -168,7 +168,7 @@ if feature_compiling:
                     return -1, result.stderr.decode('utf-8')
                 return 0, result.stdout.decode('utf-8')
             except UndefinedLanguageError as err:
-                # Error code -5 chosen semi arbitrarily
+                # Error code -5 chosen since no documentation of use found
                 return -5, err
             except UndefinedFileError as err:
                 return -5, err

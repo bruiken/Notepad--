@@ -4,7 +4,7 @@ possible_features = ['aop.extensions.highlight',
                      'aop.extensions.linenumbers',
                      'aop.extensions.functionclick',
                      'aop.extensions.externalsearch',
-                     'aop.extensions.compilerselection']
+                     'aop.extensions.coderunner']
 
 for feature in possible_features:
     try:

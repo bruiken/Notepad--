@@ -1,10 +1,10 @@
-function compilefile(filepath, language){
+function compileandrun(filepath, language){
     console.log('Attempting to compile file "' + filepath + '" with language "' + language + '"');
     const data = {
         filepath: filepath,
         language: language
     };
-    $.post("/editor/compile", data, function (data) {
+    $.post("/editor/code_runner", data, function (data) {
         if (data['success'] === true) {
             console.log('Attempt successful. Output: ' + data['message']);
         }

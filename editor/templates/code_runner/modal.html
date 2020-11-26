@@ -1,4 +1,4 @@
-<div class="modal fade" id="compileFileModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="compileAndRunModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -13,7 +13,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <a class="btn btn-primary" onclick="compilefile(document.getElementById('filepathField').value, document.getElementById('languageField').value) ; $('#compileFileModal').modal('toggle');">Compile</a>
+                <a class="btn btn-primary" onclick="compileandrun(document.getElementById('filepathField').value, document.getElementById('languageField').value) ; $('#compileAndRunModal').modal('toggle');">Compile & Run</a>
             </div>
         </div>
     </div>
