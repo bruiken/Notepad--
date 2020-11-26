@@ -17,7 +17,11 @@ if feature_highlighting:
         @flaskapp.route('/editor/highlight', methods=['POST'])
         def editor_post():
             return syntax_highlight(request)
-        return editor_post
+
+        @flaskapp.route('/editor/highlight/style', methods=['POST'])
+        def editor_give_stylesheet():
+            theme = request.form['theme']
+            return HtmlFormatter(style=theme).get_style_defs()
 
     @extends('feature_states')
     def feature_highlight(features):
@@ -38,6 +42,10 @@ if feature_highlighting:
     @extends('feature_page_htmls')
     def highlight_page_html(htmls):
         htmls.append('/highlight/language_select.html')
+
+    @extends('feature_navbar_theme_settings_htmls')
+    def highlight_navbar_theme_settings_html(htmls):
+        htmls.append('/highlight/theme.html')
 
     def syntax_highlight(request):
         language = request.form['language']

@@ -27,6 +27,16 @@
 {% for menu_item in menu_item_html %}
 {% include menu_item %}
 {% endfor %}
+<li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Settings
+    </a>
+    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+    {% for html in navbar_settings_html %}
+        {% include html %}
+    {% endfor %}
+    </div>
+</li>
 {% endblock %}
 
 {% block content %}
@@ -36,7 +46,6 @@
         {% for html in page_html %}
         {% include html %}
         {% endfor %}
-
         <div style="display: flex;">
             {% for html in pre_editor_html %}
             {% include html %}
