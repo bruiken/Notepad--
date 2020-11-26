@@ -14,7 +14,7 @@ if feature_code_runner:
     @extends('define_endpoints', after=True)
     def compilation_endpoints(flaskapp):
         @flaskapp.route('/editor/code_runner', methods=['POST'])
-        def editor_post():
+        def editor_code_post():
             """
             Selects a interpreter or compiler and runs the code at a path. Returns the output as json
             if successfully compiled. Returns the output with the appropriate error otherwise.
@@ -30,7 +30,6 @@ if feature_code_runner:
             elif returncode == 1:
                 return jsonify(success=False, message='Failed to code_runner: {}'.format(message))
             return jsonify(success=True, message='stdout: {}'.format(message))
-        return editor_post 
 
     @extends('feature_states')
     def feature_code_runner_code(features):
