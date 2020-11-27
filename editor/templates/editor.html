@@ -21,6 +21,9 @@
         <a class="dropdown-item" href="#" onclick="$('#chooseFileModal').modal('toggle');">Download</a>
     </div>
 </li>
+{% for menu_item in menu_item_html %}
+{% include menu_item %}
+{% endfor %}
 {% endblock %}
 
 {% block content %}
@@ -68,7 +71,9 @@
             </div>
         </div>
     </div>
-
+    {% for modal in modal_html %}
+    {% include modal %}
+    {% endfor %}
 {% endblock %}
 
 {% block additionalScripts %}
