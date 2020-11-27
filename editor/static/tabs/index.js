@@ -2,7 +2,7 @@ var totalTabs = 0;
 var focusedTab = 0;
 var totalTabs = 1;
 var previousFocusedTab = 0;
-var textFields = {};
+var tabInfo = {};
 
 $(() => {
     $(document).bind('fileLoad_before', () => {
@@ -10,7 +10,10 @@ $(() => {
     });
 
     $(document).bind('textChanged', () => {
-        textFields[focusedTab] = getEditorText();
+        tabInfo[focusedTab] = {
+            text: getEditorText(),
+            scrollPos: getEditorScrollPos()
+        };
     });
 });
 
@@ -26,7 +29,10 @@ function addTab(event) {
         </li>
     `;
     $(newTabHTML).insertBefore('#newTab');
-    textFields[newId] = "";
+    tabInfo[newId] = {
+        text: "",
+        scrollPos: [0, 0]
+    };
     focusTab(null, newId);
 }
 
@@ -36,14 +42,13 @@ function closeTab(event, number) {
 
     document.getElementById("Tab-" + number).remove();
 
-    if(!(previousFocusedTab in textFields)) {
-        console.log("HIERO")
+    if(!(previousFocusedTab in tabInfo)) {
         previousFocusedTab = getLastTabNumber();
     }
     if(focusedTab === number && previousFocusedTab != focusedTab) {
         focusTab(event, previousFocusedTab);
     }
-    delete textFields[number];
+    delete tabInfo[number];
 }
 
 function focusTab(event, number) {
@@ -52,9 +57,22 @@ function focusTab(event, number) {
     }
     $(`#Tab-${number} a`).tab('show');
     previousFocusedTab = focusedTab;
-    textFields[previousFocusedTab] = getEditorText();
+    currentTabInfo = getCurrentTabInfo();
+    tabInfo[previousFocusedTab] = currentTabInfo;
     focusedTab = number;
-    setEditorText(textFields[focusedTab]);
+    setCurrentTabInfo(tabInfo[focusedTab])
+}
+
+function getCurrentTabInfo() {
+    return {
+        text: getEditorText(),
+        scrollPos: getEditorScrollPos()
+    }
+}
+
+function setCurrentTabInfo(current) {
+    setEditorText(current.text);
+    setEditorScrollPos(current.scrollPos);
 }
 
 function getLastTabNumber() {
