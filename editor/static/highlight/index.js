@@ -19,13 +19,10 @@ $(() => {
         equalize_scrolls(displayArea, textArea);
     });
 
-    $(document).bind('fileLoad_done', () => {
+    $(document).bind('textChanged', () => {
         equalize_scrolls(displayArea, textArea);
         processPost(textArea);
     });
-
-    equalize_scrolls(displayArea, textArea);
-    processPost(textArea);
 });
 
 function equalize_scrolls(displayArea, textArea) {

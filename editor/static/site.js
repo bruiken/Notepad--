@@ -3,9 +3,8 @@ var savedText = "";
 
 $(() => {
     var textArea = document.getElementById('textArea');
-    textArea.value = restoreText(textArea);
+    setEditorText(restoreText(textArea));
 });
-
 
 function saveText(textarea) {
     infoNotification('Saved');
@@ -42,6 +41,17 @@ function restoreText(textarea) {
     }
     savedText = savedValue;
     return savedValue;
+}
+
+function setEditorText(text) {
+    var textArea = document.getElementById("textArea");
+    textArea.value = text;
+    $(document).trigger('textChanged');
+}
+
+function getEditorText(text) {
+    var textArea = document.getElementById("textArea");
+    return textArea.value;
 }
 
 function downloadfile(name){
@@ -84,11 +94,11 @@ function fileLoad(inputField){ // loads a file
     var file = document.getElementById("fileinput").files[0];
     var reader = new FileReader();
     reader.onload = function (e) {
+        $(document).trigger('fileLoad_before');
         var textArea = document.getElementById("textArea");
-        textArea.value = e.target.result;
+        setEditorText(e.target.result);
         isSaved = textArea.value == savedText;
         setTitle(isSaved);
-        $(document).trigger('fileLoad_done');
     };
     reader.readAsText(file);
 }

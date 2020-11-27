@@ -10,10 +10,9 @@ $(() => {
         $line_container.scrollTop(textArea.scrollTop);
     });
 
-    $(document).bind('fileLoad_done', () => {
+    $(document).bind('textChanged', () => {
         textAreaChanged();
     });
-    textAreaChanged();
 });
 
 function textAreaChanged() {
