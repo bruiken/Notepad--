@@ -1,8 +1,8 @@
 var isSaved = true;
 var savedText = "";
+var textArea = document.getElementById("textArea");
 
 $(() => {
-    var textArea = document.getElementById('textArea');
     setEditorText(restoreText(textArea));
 });
 
@@ -44,18 +44,24 @@ function restoreText(textarea) {
 }
 
 function setEditorText(text) {
-    var textArea = document.getElementById("textArea");
     textArea.value = text;
     $(document).trigger('textChanged');
 }
 
 function getEditorText(text) {
-    var textArea = document.getElementById("textArea");
     return textArea.value;
 }
 
+function setEditorScrollPos(scrollPos) {
+    textArea.scrollLeft = scrollPos[0];
+    textArea.scrollTop = scrollPos[1];
+}
+
+function getEditorScrollPos() {
+    return [textArea.scrollLeft, textArea.scrollTop];
+}
+
 function downloadfile(name){
-    var textArea = document.getElementById("textArea");
     var workElement = document.createElement("a");
     if ('download' in workElement) {
         var text = restoreText(textArea);
@@ -95,7 +101,6 @@ function fileLoad(inputField){ // loads a file
     var reader = new FileReader();
     reader.onload = function (e) {
         $(document).trigger('fileLoad_before');
-        var textArea = document.getElementById("textArea");
         setEditorText(e.target.result);
         isSaved = textArea.value == savedText;
         setTitle(isSaved);
