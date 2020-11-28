@@ -100,7 +100,7 @@ function fileLoad(inputField){ // loads a file
     var file = document.getElementById("fileinput").files[0];
     var reader = new FileReader();
     reader.onload = function (e) {
-        $(document).trigger('fileLoad_before');
+        $(document).trigger('fileLoad_before', [file.name]);
         setEditorText(e.target.result);
         isSaved = textArea.value == savedText;
         setTitle(isSaved);

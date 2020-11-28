@@ -5,8 +5,9 @@ var previousFocusedTab = 0;
 var tabInfo = {};
 
 $(() => {
-    $(document).bind('fileLoad_before', () => {
-        addTab();
+    $(document).bind('fileLoad_before', (e, fileName) => {
+        addTab(e, fileName);
+        console.log(fileName);
     });
 
     $(document).bind('textChanged', () => {
@@ -17,7 +18,7 @@ $(() => {
     });
 });
 
-function addTab(event) {
+function addTab(event, fileName) {
     if(event) {
         event.preventDefault();
     }
@@ -25,7 +26,7 @@ function addTab(event) {
     var newId = getLastTabNumber()+1;
     var newTabHTML = `
         <li class="nav-item" id="Tab-${newId}">
-            <a href="#${newId}" class="nav-link" onclick="focusTab(event, ${newId});"><button class="close" onclick="closeTab(event, ${newId});" type="button"> <sup>&times;</sup></button>New Tab</a>
+            <a href="#${newId}" class="nav-link" onclick="focusTab(event, ${newId});"><button class="close" onclick="closeTab(event, ${newId});" type="button"> <sup>&times;</sup></button>${fileName}</a>
         </li>
     `;
     $(newTabHTML).insertBefore('#newTab');
