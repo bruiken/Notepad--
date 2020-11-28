@@ -105,5 +105,6 @@ function fileLoad(inputField){ // loads a file
         isSaved = textArea.value == savedText;
         setTitle(isSaved);
     };
+    $('input[type="file"]').val(null);
     reader.readAsText(file);
 }
