@@ -40,11 +40,13 @@ function addTab(focus, name="New Tab", id=-1, event=null) {
             <a class="nav-link" onclick="focusTab(${id}, true);"><button class="close" onclick="closeTab(${id}, event);" type="button">&times;</button><span id=titleTab>${name}</h1></a>
     `;
     $(newTabHTML).insertBefore('#newTab');
-    tabInfo[id] = {
+    newInfo = {
         text: "",
         scrollPos: [0, 0],
         name: name
     };
+    tabInfo[id] = newInfo;
+    savedTabInfo[id] = newInfo;
     if(focus) {
         focusTab(id);
     }
@@ -73,16 +75,13 @@ function focusTab(number, savePreviousText=true, event=null) {
         event.stopPropagation();
         event.preventDefault();
     }
-    if(focusedTab != number)
-    {
-        $(`#Tab-${number} a`).tab('show');
-        if(savePreviousText) {
-            previousFocusedTab = focusedTab;
-            currentTabInfo = getCurrentTabInfo();
-            tabInfo[previousFocusedTab] = currentTabInfo;
-        }
-        focusedTab = number;
+    $(`#Tab-${number} a`).tab('show');
+    if(savePreviousText) {
+        previousFocusedTab = focusedTab;
+        currentTabInfo = getCurrentTabInfo();
+        tabInfo[previousFocusedTab] = currentTabInfo;
     }
+    focusedTab = number;
     setCurrentTabInfo(tabInfo[focusedTab])
 }
 
@@ -107,42 +106,42 @@ function getLastTabNumber() {
 
 function restoreTabs()
 {
-    var savedTabs = getSavedTabs();
-    var toCreate = savedTabs[0];
-    var toFocus = savedTabs[1];
-    for(key in toCreate) {
-        var current = toCreate[key];
+    getSavedTabs();
+    for(key in savedTabInfo) {
+        var current = savedTabInfo[key];
         if(key !== "0") {
             addTab(false, current.name, key);
         }
-        tabInfo[key] = toCreate[key];
+        tabInfo[key] = current;
     }
 
-    focusTab(toFocus, false);
+    console.log(focusedTab);
+    focusTab(focusedTab, false);
 }
 
 function saveAllTabs() {
     infoNotification('Saved All Tabs');
-    setSavedTabs(tabInfo);
+    savedTabInfo = tabInfo;
+    setSavedTabs();
+    restoreAllTabTitle();
 }
 
 function saveCurrentTab()
 {
     infoNotification('Saved Tab');
-    var savedTabs = getSavedTabs()[0];
-    setSavedTabs(savedTabs);
+    setSavedTabs();
+    setTabTitle();
 }
 
 function restoreTabText() {
-    var savedTabs = getSavedTabs()[0];
-    return savedTabs[focusedTab].text;
+    getSavedTabs();
+    return savedTabInfo[focusedTab].text;
 }
 
-function setSavedTabs(savedTabs) {
-    savedTabs[focusedTab] = getCurrentTabInfo();
+function setSavedTabs() {
+    savedTabInfo[focusedTab] = getCurrentTabInfo();
     localStorage.setItem("focusedTab", focusedTab);
-    localStorage.setItem("tabs", JSON.stringify(savedTabs));
-    savedTabInfo = savedTabs;
+    localStorage.setItem("tabs", JSON.stringify(savedTabInfo));
 }
 
 function getSavedTabs() {
@@ -160,18 +159,26 @@ function getSavedTabs() {
     if(savedTabs === null) {
         savedTabs = emptySave;
     }
-    var focusedTab = parseInt(localStorage.getItem("focusedTab") || "0");
+    focusedTab = parseInt(localStorage.getItem("focusedTab") || "0");
     savedTabInfo = savedTabs;
-    return [savedTabs, focusedTab];
 }
 
 function setTabTitle() {
-    var current = getCurrentTabInfo();
-    var title = current.name;
-    if (savedTabInfo.length <= focusedTab || current.text !== savedTabInfo[focusedTab].text) {
-        title = "*" + title;
-    }
+    if(savedTabInfo !== null) {
+        var current = getCurrentTabInfo();
+        var title = current.name;
+        if (Object.keys(savedTabInfo).length <= focusedTab || current.text !== savedTabInfo[focusedTab].text) {
+            title = "*" + title;
+        }
 
-    var element = $(`#Tab-${focusedTab} #titleTab`)[0];
-    element.textContent = title;
+        var element = $(`#Tab-${focusedTab} #titleTab`)[0];
+        element.textContent = title;
+    }
+}
+
+function restoreAllTabTitle() {
+    for(key in tabInfo) {
+        var element = $(`#Tab-${key} #titleTab`)[0];
+        element.textContent = tabInfo[key].name;
+    }
 }

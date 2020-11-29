@@ -16,9 +16,12 @@
         File
     </a>
     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <a class="dropdown-item" href="#" onclick="$('#chooseFileModal').modal('toggle');">Download</a>
         <a class="dropdown-item" href="#" onclick="document.getElementById('fileinput').click()">Load</a>
         <a class="dropdown-item" href="#" onclick="saveText(document.getElementById('codeField'));">Save</a>
-        <a class="dropdown-item" href="#" onclick="$('#chooseFileModal').modal('toggle');">Download</a>
+        {% for html in dropdown_file_html %}
+        {% include html %}
+        {% endfor %}
     </div>
 </li>
 {% for menu_item in menu_item_html %}
