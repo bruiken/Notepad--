@@ -3,21 +3,23 @@ var focusedTab = 0;
 var totalTabs = 1;
 var previousFocusedTab = 0;
 var tabInfo = {};
+var savedTabInfo = {};
 
 $(() => {
     $(document).bind('fileLoad_before', (e, fileName) => {
         addTab(e, fileName);
     });
 
-    // setTitle = setTabTitle;
+    setTitle = setTabTitle;
     saveText = saveCurrentTab;
     restoreText = restoreTabText;
 
     $(document).bind('textChanged', () => {
+        var current = tabInfo[focusedTab];
         tabInfo[focusedTab] = {
             text: getEditorText(),
             scrollPos: getEditorScrollPos(),
-            name: tabInfo[focusedTab].name
+            name: current.name
         };
     });
 
@@ -35,13 +37,13 @@ function addTab(focus, name="New Tab", id=-1, event=null) {
     }
     var newTabHTML = `
         <li class="nav-item" id="Tab-${id}">
-            <a class="nav-link" onclick="focusTab(${id}, true);"><button class="close" onclick="closeTab(${id}, event);" type="button">&times;</button>${name}</a>
+            <a class="nav-link" onclick="focusTab(${id}, true);"><button class="close" onclick="closeTab(${id}, event);" type="button">&times;</button><span id=titleTab>${name}</h1></a>
     `;
     $(newTabHTML).insertBefore('#newTab');
     tabInfo[id] = {
-        name: name,
         text: "",
-        scrollPos: [0, 0]
+        scrollPos: [0, 0],
+        name: name
     };
     if(focus) {
         focusTab(id);
@@ -120,11 +122,13 @@ function restoreTabs()
 }
 
 function saveAllTabs() {
+    infoNotification('Saved All Tabs');
     setSavedTabs(tabInfo);
 }
 
 function saveCurrentTab()
 {
+    infoNotification('Saved Tab');
     var savedTabs = getSavedTabs()[0];
     setSavedTabs(savedTabs);
 }
@@ -138,10 +142,36 @@ function setSavedTabs(savedTabs) {
     savedTabs[focusedTab] = getCurrentTabInfo();
     localStorage.setItem("focusedTab", focusedTab);
     localStorage.setItem("tabs", JSON.stringify(savedTabs));
+    savedTabInfo = savedTabs;
 }
 
 function getSavedTabs() {
-    var savedTabs = JSON.parse(localStorage.getItem("tabs") || {});
+    var emptySave = [{
+        text: "",
+        scrollPos: [0, 0],
+        name: "New Tab"
+    }];
+    var savedTabs = ""
+    try {
+        savedTabs = JSON.parse(localStorage.getItem("tabs"));
+    } catch(e) {
+        savedTabs = emptySave;
+    }
+    if(savedTabs === null) {
+        savedTabs = emptySave;
+    }
     var focusedTab = parseInt(localStorage.getItem("focusedTab") || "0");
+    savedTabInfo = savedTabs;
     return [savedTabs, focusedTab];
+}
+
+function setTabTitle() {
+    var current = getCurrentTabInfo();
+    var title = current.name;
+    if (savedTabInfo.length <= focusedTab || current.text !== savedTabInfo[focusedTab].text) {
+        title = "*" + title;
+    }
+
+    var element = $(`#Tab-${focusedTab} #titleTab`)[0];
+    element.textContent = title;
 }
