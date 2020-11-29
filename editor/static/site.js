@@ -35,12 +35,7 @@ function warnNotification(text) {
 
 
 function restoreText(textarea) {
-    var savedValue = localStorage.getItem(textarea.id);
-    if(!savedValue) {
-        return ""
-    }
-    savedText = savedValue;
-    return savedValue;
+    return localStorage.getItem(textarea.id) || "";
 }
 
 function setEditorText(text) {
