@@ -13,14 +13,11 @@ $(() => {
     saveText = saveCurrentTab;
     restoreText = restoreTabText;
 
-    $(document).bind('fileLoad_before', () => {
-        addTab(true);
-    });
-
     $(document).bind('textChanged', () => {
         tabInfo[focusedTab] = {
             text: getEditorText(),
-            scrollPos: getEditorScrollPos()
+            scrollPos: getEditorScrollPos(),
+            name: tabInfo[focusedTab].name
         };
     });
 
@@ -38,7 +35,7 @@ function addTab(focus, name="New Tab", id=-1, event=null) {
     }
     var newTabHTML = `
         <li class="nav-item" id="Tab-${id}">
-            <a class="nav-link" onclick="focusTabEvent(event, ${id});"><button class="close" onclick="closeTabEvent(event, ${id});" type="button">&times;</button>${name}</a>
+            <a class="nav-link" onclick="focusTab(${id}, true);"><button class="close" onclick="closeTab(${id}, event);" type="button">&times;</button>${name}</a>
     `;
     $(newTabHTML).insertBefore('#newTab');
     tabInfo[id] = {
@@ -87,14 +84,11 @@ function focusTab(number, savePreviousText=true, event=null) {
     setCurrentTabInfo(tabInfo[focusedTab])
 }
 
-function focusTabEvent(event, number) {
-    focusTab(number);
-}
-
 function getCurrentTabInfo() {
     return {
         text: getEditorText(),
-        scrollPos: getEditorScrollPos()
+        scrollPos: getEditorScrollPos(),
+        name: tabInfo[focusedTab].name
     }
 }
 
@@ -117,7 +111,7 @@ function restoreTabs()
     for(key in toCreate) {
         var current = toCreate[key];
         if(key !== "0") {
-            addTab(false, key, current.name);
+            addTab(false, current.name, key);
         }
         tabInfo[key] = toCreate[key];
     }
