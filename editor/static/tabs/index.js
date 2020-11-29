@@ -115,7 +115,6 @@ function restoreTabs()
         tabInfo[key] = current;
     }
 
-    console.log(focusedTab);
     focusTab(focusedTab, false);
 }
 
