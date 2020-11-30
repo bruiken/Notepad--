@@ -9,8 +9,8 @@
     width: 40px;
     max-height: 70vh;
     border-right: 2px transparent;
-    border-top: 1px transparent;
-    border-bottom: 1px transparent;
+    border-top: 2px solid transparent;
+    border-bottom: 2px solid transparent;
     padding-right: .4rem;
     overflow-y: hidden;
     pointer-events: none;
