@@ -1,13 +1,13 @@
 .ctrl-hovering {
     text-decoration: underline;
     cursor: pointer;
-    text-decoration-color: black;
+    text-decoration-color: var(--blue);
 }
 
 #function-click-area {
     color: transparent;
     background-color: transparent;
-    text-decoration-color: black;
+    text-decoration-color: var(--blue);
 }
 
 .displayArea.form-control, #textArea {
@@ -28,9 +28,8 @@
 }
 
 #textArea {
-    border-radius: 0;
     background-color: transparent;
-    caret-color: #555555;
+    caret-color: var(--dark);
     z-index: 2;
     resize: none;
 }

@@ -7,9 +7,12 @@ html, body {
     height: 70vh;
 }
 
-textarea.form-control {
+textarea.form-control, textarea.form-control:focus {
     line-height: 1.2em;
     font-family: Consolas, 'Courier New', Courier, monospace;
+    background: transparent;
+    color: var(--dark);
+    border: 2px solid var(--dark);
     resize: none;
     height: 100%;
     padding: 0;

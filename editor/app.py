@@ -22,6 +22,8 @@ def define_endpoints(flaskapp):
                                feature_scripts=feature_scripts([]),
                                dropdown_file_html=feature_dropdown_file_htmls([]),
                                editor_html=feature_editor_htmls([]),
+                               navbar_settings_html=feature_navbar_settings_htmls([]),
+                               navbar_theme_settings_html=feature_navbar_theme_settings_htmls([]),
                                pre_editor_html=feature_pre_editor_htmls([]),
                                page_html=feature_page_htmls([]),
                                menu_item_html=feature_menu_item_htmls([]),
@@ -51,6 +53,16 @@ def feature_dropdown_file_htmls(htmls):
 
 @extensible
 def feature_editor_htmls(htmls):
+    return htmls
+
+
+@extensible
+def feature_navbar_theme_settings_htmls(htmls):
+    return htmls
+
+
+@extensible
+def feature_navbar_settings_htmls(htmls):
     return htmls
 
 
