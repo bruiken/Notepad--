@@ -31,6 +31,7 @@ if feature_code_runner:
                 return jsonify(success=False, message='Failed to code_runner: {}'.format(message))
             return jsonify(success=True, message='stdout: {}'.format(message))
 
+
     @extends('feature_states')
     def feature_code_runner_code(features):
         features['code_runner'] = True

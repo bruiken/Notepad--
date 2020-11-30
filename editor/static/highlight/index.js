@@ -68,7 +68,7 @@ function processPost(textarea) {
         isRequesting = false;
         if (response === "success") {
             previousText = displayArea.innerHTML;
-            displayArea.innerHTML = data.replace(/\n$/g, '\n\n');
+            displayArea.innerHTML = data.replace(/\n$/g, '\n\n\n');
         }
         if (requestHighlight) {
             requestHighlight = false;
