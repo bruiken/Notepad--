@@ -13,7 +13,10 @@ if feature_themes:
     def highlighting_endpoints(flaskapp):
         @flaskapp.route('/editor/themes/bootstrap', methods=['POST'])
         def editor_replace_bootstrap_style():
-            flaskapp.config['BOOTSTRAP_BOOTSWATCH_THEME'] = request.form['theme']
+            theme = request.form['theme']
+            if theme == 'default':
+                theme = ''
+            flaskapp.config['BOOTSTRAP_BOOTSWATCH_THEME'] = theme
             return Bootstrap.load_css()
 
     @extends('feature_states')
