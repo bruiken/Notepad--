@@ -1,14 +1,25 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from time import sleep
+from dotenv import load_dotenv
+from distutils.util import strtobool
 import unittest
-
+import os
 #initial setup
-path = 'C:/Users/Huy/Downloads/chromedriver_win32/chromedriver.exe'
-browser = webdriver.Chrome(path)
+load_dotenv()
+if bool(strtobool(os.getenv("FIREFOX"))):
+    fp = webdriver.FirefoxProfile()
+    fp.set_preference("browser.download.folderList",2)
+    fp.set_preference("browser.download.dir", "C:\\Users\\Huy\\Downloads")
+    fp.set_preference("browser.download.manager.showWhenStarting", False)
+    fp.set_preference("browser.helperApps.neverAsk.saveToDisk", "text/plain")
+    browser = webdriver.Firefox(executable_path=os.getenv("WEBDRIVER_FIREFOX"),firefox_profile=fp)
+elif bool(strtobool(os.getenv("CHROME"))):
+    browser = webdriver.Chrome(os.getenv("WEBDRIVER_CHROME"))
+
 browser.get("http://127.0.0.1:5000/editor")
-test_file_path = 'C:/Users/Huy/Downloads/hello.py'
-test_download_path = 'C:/Users/Huy/Downloads/JUNGLEDIFF.txt'
+test_file_path = os.getenv("TEST_FILE_PATH")
+test_download_path = os.getenv("TEST_DOWNLOAD_PATH")
 editor = browser.find_element_by_id('textArea')
 
 def file_load():
@@ -46,7 +57,7 @@ def file_download():
     download_button.click()
     file_name_button = browser.find_element_by_id("fileNameField")
     sleep(0.5)
-    file_name_button.send_keys("JUNGLEDIFF")
+    file_name_button.send_keys("JUNGLEDIFF.TXT")
     save_button = browser.find_element_by_link_text("Save")
     save_button.click()
 
@@ -78,9 +89,6 @@ class FileTest(unittest.TestCase):
         f.close()
         textarea = editor.get_attribute("value")
         self.assertEqual(textarea,expected_output)
-
-    def test(self):
-        self.assertEqual("2","1")
 
 if __name__ == '__main__':
     unittest.main()
