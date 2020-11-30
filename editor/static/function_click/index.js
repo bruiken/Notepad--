@@ -32,7 +32,7 @@ $(() => {
         equalize_scrolls(displayArea, textArea);
     });
 
-    $(document).bind('fileLoad_done', () => {
+    $(document).bind('textChanged', () => {
         equalize_scrolls(displayArea, textArea);
         copy_text(displayArea, textArea);
     });
@@ -48,9 +48,6 @@ $(() => {
     $('#textArea').mouseup(function (event) {
         if (control_being_pressed) click_with_control();
     });
-
-    equalize_scrolls(displayArea, textArea);
-    copy_text(displayArea, textArea);
 });
 
 /**

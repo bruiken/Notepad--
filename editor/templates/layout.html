@@ -46,10 +46,10 @@
         {% block scripts %}
             <!-- Bootstrap JavaScript -->
             {{ bootstrap.load_js() }}
-            <!-- Our own JavaScript -->
-            <script src="/static/site.js"></script>  
             <!-- Additional JavaScript -->
             {% block additionalScripts %}
             {% endblock %}
+            <!-- Our own JavaScript -->
+            <script src="/static/site.js"></script>  
         {% endblock %}
     </body>

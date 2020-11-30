@@ -20,6 +20,7 @@ def define_endpoints(flaskapp):
         return render_template('editor.html',
                                feature_sheets=feature_sheets([]),
                                feature_scripts=feature_scripts([]),
+                               dropdown_file_html=feature_dropdown_file_htmls([]),
                                editor_html=feature_editor_htmls([]),
                                pre_editor_html=feature_pre_editor_htmls([]),
                                page_html=feature_page_htmls([]),
@@ -41,6 +42,11 @@ def feature_sheets(sheets):
 @extensible
 def feature_scripts(scripts):
     return scripts
+
+
+@extensible
+def feature_dropdown_file_htmls(htmls):
+    return htmls
 
 
 @extensible

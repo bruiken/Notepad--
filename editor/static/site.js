@@ -1,11 +1,10 @@
 var isSaved = true;
 var savedText = "";
+var textArea = document.getElementById("textArea");
 
 $(() => {
-    var textArea = document.getElementById('textArea');
-    textArea.value = restoreText(textArea);
+    setEditorText(restoreText(textArea));
 });
-
 
 function saveText(textarea) {
     infoNotification('Saved');
@@ -36,16 +35,28 @@ function warnNotification(text) {
 
 
 function restoreText(textarea) {
-    var savedValue = localStorage.getItem(textarea.id);
-    if(!savedValue) {
-        return ""
-    }
-    savedText = savedValue;
-    return savedValue;
+    return localStorage.getItem(textarea.id) || "";
+}
+
+function setEditorText(text) {
+    textArea.value = text;
+    $(document).trigger('textChanged');
+}
+
+function getEditorText(text) {
+    return textArea.value;
+}
+
+function setEditorScrollPos(scrollPos) {
+    textArea.scrollLeft = scrollPos[0];
+    textArea.scrollTop = scrollPos[1];
+}
+
+function getEditorScrollPos() {
+    return [textArea.scrollLeft, textArea.scrollTop];
 }
 
 function downloadfile(name){
-    var textArea = document.getElementById("textArea");
     var workElement = document.createElement("a");
     if ('download' in workElement) {
         var text = restoreText(textArea);
@@ -84,11 +95,11 @@ function fileLoad(inputField){ // loads a file
     var file = document.getElementById("fileinput").files[0];
     var reader = new FileReader();
     reader.onload = function (e) {
-        var textArea = document.getElementById("textArea");
-        textArea.value = e.target.result;
+        $(document).trigger('fileLoad_before', [file.name]);
+        setEditorText(e.target.result);
         isSaved = textArea.value == savedText;
         setTitle(isSaved);
-        $(document).trigger('fileLoad_done');
     };
+    $('input[type="file"]').val(null);
     reader.readAsText(file);
 }
