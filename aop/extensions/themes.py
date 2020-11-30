@@ -31,6 +31,6 @@ if feature_themes:
     def func_themes_navbar_settings_html(htmls):
         htmls.append('/themes/navbar.html')
 
-    @extends('feature_page_htmls')
+    @extends('feature_modal_htmls')
     def func_themes_page_html(htmls):
         htmls.append('/themes/modal.html')
