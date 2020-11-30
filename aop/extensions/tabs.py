@@ -27,3 +27,7 @@ if feature_tabs:
     @extends('feature_page_htmls', after=True)
     def tabs_pre_editor_html(htmls):
         htmls.append('tabs/index.html')
+
+    @extends('feature_help_section_htmls')
+    def tabs_feature_help_section_html(htmls):
+        htmls.append('tabs/help.html')
