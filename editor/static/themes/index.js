@@ -1,13 +1,19 @@
+// This code is called when the page is done loading, this sets the themes that were set previously (or the default theme)
 $(() => {
     replaceBootstrapStyle();
     setSelectedThemes();
 });
 
+// The keys for the localstorage
 const storeMainTheme = "mainTheme";
 const storeMainThemeIndex = "mainThemeIndex";
 const storeEditorTheme = "editorTheme";
 const storeEditorThemeIndex = "editorThemeIndex";
 
+/**
+ * Replace the themes by getting the selected theme, replacing the bootstrap and replacing the highlight theme 
+ * if that feature is enabled
+ */
 function savedTheme() {
     const mainThemeSelect = document.getElementById('mainThemeSelect');
     localStorage.setItem(storeMainTheme, mainThemeSelect.value);
@@ -21,6 +27,10 @@ function savedTheme() {
     }
 }
 
+/**
+ * Set the themes that are selected, this makes sure so when you click on the theme settings you see 
+ * the same theme that was selected before
+ */
 function setSelectedThemes() {
     var mainThemeIndex = localStorage.getItem(storeMainThemeIndex);
     if (mainThemeIndex !== null) {
@@ -36,6 +46,9 @@ function setSelectedThemes() {
     }
 }
 
+/**
+ * Replace the bootstrap style
+ */
 function replaceBootstrapStyle() {
     var savedBootstrapCssTheme = localStorage.getItem(storeMainTheme);
     if(!savedBootstrapCssTheme) {
