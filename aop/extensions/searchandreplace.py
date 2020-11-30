@@ -15,6 +15,10 @@ if search_and_replace:
     def external_search_js(scripts):
         scripts.append('/static/search_and_replace/index.js')
 
-    @extends('feature_page_htmls')
-    def external_search_html(htmls):
-        htmls.append('/search_and_replace/index.html')
+    @extends('feature_modal_htmls')
+    def external_search_modal_html(htmls):
+        htmls.append('/search_and_replace/modal.html')
+
+    @extends('feature_dropdown_file_htmls')
+    def external_search_dropdown_file_html(htmls):
+        htmls.append('/search_and_replace/navbar.html')
