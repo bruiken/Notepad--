@@ -37,8 +37,10 @@
     {% endfor %}
     </div>
 </li>
+<li class="nav-item dropdown">
+    <a class="nav-link" href="#" onclick="$('#helpModal').modal('toggle');">Help</a>
+</li>
 {% endblock %}
-
 {% block content %}
     <input id="fileinput" type="file" class="custom-file-input d-none" onchange="fileLoad(this);" />
     <!-- Editor textarea container -->
@@ -79,6 +81,42 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                     <a class="btn btn-primary" onclick="downloadfile(document.getElementById('fileNameField').value); $('#chooseFileModal').modal('toggle');">Save</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- help modal -->
+    <div class="modal fade" id="helpModal" tabindex="-1" role="dialog" aria-labelledby="helpModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Documentation</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h3>Basic usage</h3>
+                    <h6><u>Editing & saving text</u></h6>
+                    <p>
+                    To edit text, simply type in the textarea. This text can be saved by pressing <i>File -> Save</i>, or <i>CTRL+S</i>. The <i>*</i> in the
+                    title indicates that the text has not been saved. Saved text is kept upon page refresh.
+                    </p>
+                    <h6><u>Loading a file</u></h6>
+                    <p>
+                    To edit an existing file, simply click <i>File -> Load</i> and choose the file to load. This file is then put in the textarea.
+                    You can then edit this file and save the edited text.
+                    </p>
+                    <h6><u>Downloading to a file</u></h6>
+                    <p>
+                    To download the edited text, you can click on <i>File -> Download</i>. Enter a file name and pressing <i>Save</i> will download the
+                    file using the browser.
+                    </p>
+                    {% for section in help_section_html %}
+                    {% include section %}
+                    {% endfor %}
                 </div>
             </div>
         </div>
