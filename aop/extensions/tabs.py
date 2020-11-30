@@ -20,6 +20,6 @@ if feature_tabs:
     def tabs_dropdown_file_html(htmls):
         htmls.append('tabs/dropdown.html')
 
-    @extends('feature_page_htmls')
+    @extends('feature_page_htmls', after=True)
     def tabs_pre_editor_html(htmls):
         htmls.append('tabs/index.html')
