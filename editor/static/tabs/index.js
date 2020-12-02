@@ -228,6 +228,7 @@ function setTabTitle() {
         var title = current.name;
         if (Object.keys(savedTabInfo).length <= focusedTab || current.text !== savedTabInfo[focusedTab].text) {
             title = "*" + title;
+	    isSaved = false;
         } else {
 	    isSaved = true;
 	}
