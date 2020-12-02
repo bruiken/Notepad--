@@ -107,7 +107,9 @@ function focusTab(number, savePreviousText=true, event=null) {
     }
     focusedTab = number;
     savedText = savedTabInfo[focusedTab].text;
-    setCurrentTabInfo(tabInfo[focusedTab])
+    var currentTab = tabInfo[focusedTab];
+    isSaved = currentTab.text == savedText;
+    setCurrentTabInfo(currentTab);
 }
 
 /**
