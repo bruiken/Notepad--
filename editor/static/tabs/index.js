@@ -106,6 +106,7 @@ function focusTab(number, savePreviousText=true, event=null) {
         tabInfo[previousFocusedTab] = currentTabInfo;
     }
     focusedTab = number;
+    savedText = savedTabInfo[focusedTab].text;
     setCurrentTabInfo(tabInfo[focusedTab])
 }
 
@@ -187,7 +188,9 @@ function restoreTabText() {
  * Store the focused tab and the info of all the tabs in the localstorage
  */
 function setSavedTabs() {
-    savedTabInfo[focusedTab] = getCurrentTabInfo();
+    var current = getCurrentTabInfo();
+    savedText = current.text;
+    savedTabInfo[focusedTab] = current;
     localStorage.setItem("focusedTab", focusedTab);
     localStorage.setItem("tabs", JSON.stringify(savedTabInfo));
 }
@@ -223,8 +226,9 @@ function setTabTitle() {
         var title = current.name;
         if (Object.keys(savedTabInfo).length <= focusedTab || current.text !== savedTabInfo[focusedTab].text) {
             title = "*" + title;
-        }
-
+        } else {
+	    isSaved = true;
+	}
         var element = $(`#Tab-${focusedTab} #titleTab`)[0];
         element.textContent = title;
     }
