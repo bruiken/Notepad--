@@ -23,7 +23,24 @@ $(() => {
         equalize_scrolls(displayArea, textArea);
         processPost(textArea);
     });
+    initialize_stylesheet();
 });
+
+function initialize_stylesheet() {
+    var chosenTheme = 'default';
+    var savedTheme = localStorage.getItem('editorTheme')
+    if (savedTheme) {
+        chosenTheme = savedTheme;
+    }
+    var data = {
+        'theme': chosenTheme
+    };
+    $.post("/editor/highlight/style", data, function (data, response) {
+        if (response === "success") {
+            document.getElementById('editorStylesheet').innerHTML = data;
+        }
+    });
+}
 
 function equalize_scrolls(displayArea, textArea) {
     displayArea.scrollTop = textArea.scrollTop;
@@ -51,7 +68,7 @@ function processPost(textarea) {
         isRequesting = false;
         if (response === "success") {
             previousText = displayArea.innerHTML;
-            displayArea.innerHTML = data.replace(/\n$/g, '\n\n');
+            displayArea.innerHTML = data.replace(/\n$/g, '\n\n\n');
         }
         if (requestHighlight) {
             requestHighlight = false;

@@ -1,0 +1,46 @@
+<div class="modal" id=chooseThemeModal tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Set theme</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <label for="mainThemeSelect">Main</label>
+                <select class="form-control" id="mainThemeSelect">
+                    <option>cerulean</option>
+                    <option>cosmo</option>
+                    <option>cyborg</option>
+                    <option>darkly</option>
+                    <option>default</option>
+                    <option>flatly</option>
+                    <option>journal</option>
+                    <option>litera</option>
+                    <option>lumen</option>
+                    <option>lux</option>
+                    <option>materia</option>
+                    <option>minty</option>
+                    <option>pulse</option>
+                    <option>sandstone</option>
+                    <option>simplex</option>
+                    <option>sketchy</option>
+                    <option>slate</option>
+                    <option>solar</option>
+                    <option>spacelab</option>
+                    <option>superhero</option>
+                    <option>united</option>
+                    <option>yeti</option>
+                </select>
+                {% for html in navbar_theme_settings_html %}
+                    {% include html %}
+                {% endfor %}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="savedTheme();">Save changes</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
