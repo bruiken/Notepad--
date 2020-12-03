@@ -1,5 +1,5 @@
 function diffPost(){
-    var abc = savedTabInfo[0].text;
+    var abc = tabInfo[0].text;
     var abc2 = savedTabInfo[1].text;
     fetch('/diff', {
         headers: {
@@ -23,8 +23,9 @@ function diffPost(){
 
 function showDiff(diff){
     console.log(diff);
-    var diff = window.open("");
-    diff.document.body.innerHTML = diff;
+    var diffWindow = window.open("");
+    diffWindow.document.body.innerHTML = diff;
+
     
 }
 
