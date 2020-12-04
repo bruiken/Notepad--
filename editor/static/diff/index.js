@@ -1,5 +1,6 @@
 function diffPost(){
     var input = document.getElementById("placeholderDiff").value;
+    input = input - 1;
     console.log("Found input " , input);
     var valid = true;
     var base = ""
