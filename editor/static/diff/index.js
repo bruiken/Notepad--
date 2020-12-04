@@ -9,7 +9,7 @@ function diffPost(){
         base = savedTabInfo[0].text;
         toCompare = savedTabInfo[1].text;
     }
-    else if (input >=0 && input <=totalTabs && input != focusedTab){
+    else if (input > 0 && input < totalTabs && input != focusedTab){
         base = getEditorText();
         toCompare = tabInfo[input].text;
     }
