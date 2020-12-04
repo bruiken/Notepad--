@@ -15,7 +15,10 @@ function diffPost(){
     }).then(function (response) { 
         return response.text();
     }).then(function (text) {
-        if (base != false && toCompare != false)
+        console.log(keyArray);
+        console.log("base", base);
+        console.log("toCOmp", toCompare);
+        if (base !== false && toCompare !== false)
             showDiff(text);
         else 
             alert("Invalid input");
@@ -39,8 +42,10 @@ function processCompareInput(input, keyArray){
             toCompare = tabInfo[keyArray[1]].text;
     else if (input > 0 && input <= totalTabs)
         toCompare = tabInfo[keyArray[input-1]].text;
-    else 
+    else {
         return false;
+    }
+
     return toCompare
 }
 
@@ -55,8 +60,11 @@ function processBaseInput(input, keyArray){
     }
     else if (input > 0 && input <= totalTabs)
         base = getEditorText();
-    else 
+    else {
+        console.log("hier2");
         return false;
+    }
+
     return base;
 }
 
