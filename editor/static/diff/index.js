@@ -1,31 +1,42 @@
 function diffPost(){
-    var abc = tabInfo[0].text;
-    var abc2 = savedTabInfo[1].text;
-    fetch('/diff', {
+    var input = document.getElementById("placeholderDiff").value;
+    console.log("Found input " , input);
+    var valid = true;
+    var base = ""
+    var toCompare = ""
+    if (input == ""){
+        base = savedTabInfo[0].text;
+        toCompare = savedTabInfo[1].text;
+    }
+    else if (input >=0 && input <=totalTabs && input != focusedTab){
+        base = getEditorText();
+        toCompare = tabInfo[input].text;
+    }
+    else {
+        alert("Invalid input");
+        valid = false;
+    }
+
+        fetch('/diff', {
         headers: {
           'Content-Type': 'application/json'
         },
         method: 'POST',
         body: JSON.stringify({
-            "one": abc,
-            "two": abc2
+            "one": base,
+            "two": toCompare
         })
-    }).then(function (response) { // At this point, Flask has printed our JSON
+    }).then(function (response) { 
         return response.text();
     }).then(function (text) {
-    
-        console.log('POST response: ');
-        // Should be 'OK' if everything was successful
-        showDiff(text)
+        if (valid)
+            showDiff(text)
     });
 
 }
 
 function showDiff(diff){
-    console.log(diff);
     var diffWindow = window.open("");
     diffWindow.document.body.innerHTML = diff;
-
-    
 }
 
