@@ -1,7 +1,6 @@
 function diffPost(){
     var input = document.getElementById("placeholderDiff").value;
-    input = input - 1;
-    console.log("Found input " , input);
+    console.log("input " , input);
     var valid = true;
     var base = ""
     var toCompare = ""
@@ -9,9 +8,9 @@ function diffPost(){
         base = savedTabInfo[0].text;
         toCompare = savedTabInfo[1].text;
     }
-    else if (input > 0 && input < totalTabs && input != focusedTab){
+    else if (input > 0 && input <= totalTabs && input - 1 != focusedTab){
         base = getEditorText();
-        toCompare = tabInfo[input].text;
+        toCompare = tabInfo[input - 1].text;
     }
     else {
         alert("Invalid input");
