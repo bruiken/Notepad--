@@ -1,16 +1,25 @@
-function diffPost(){
+function diffPost(){  
+    const object = tabInfo;
+    var keyArray = [];
+    for (const [key, value] of Object.entries(object))
+        keyArray.push(key);
     var input = document.getElementById("placeholderDiff").value;
-    console.log("input " , input);
     var valid = true;
     var base = ""
     var toCompare = ""
-    if (input == ""){
-        base = savedTabInfo[0].text;
-        toCompare = savedTabInfo[1].text;
+    if (input == ""){ // default case
+        if (focusedTab == 0){
+            base = getEditorText();
+            toCompare = savedTabInfo[keyArray[1]].text;
+        }
+        else{
+            base = tabInfo[0].text;
+            toCompare = savedTabInfo[keyArray[1]].text;
+        }
     }
-    else if (input > 0 && input <= totalTabs && input - 1 != focusedTab){
+    else if (input > 0 && input <= totalTabs){
         base = getEditorText();
-        toCompare = tabInfo[input - 1].text;
+        toCompare = tabInfo[keyArray[input-1]].text;
     }
     else {
         alert("Invalid input");
@@ -34,6 +43,8 @@ function diffPost(){
     });
 
 }
+
+
 
 function showDiff(diff){
     var diffWindow = window.open("");
