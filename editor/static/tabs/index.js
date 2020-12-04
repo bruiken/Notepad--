@@ -44,8 +44,8 @@ function addTab(focus, name="New Tab", id=-1, event=null) {
         event.stopPropagation();
         event.preventDefault();
     }
+    totalTabs += 1;
     if(id === -1) {
-        totalTabs += 1;
         id = getLastTabNumber()+1;
     }
     var newTabHTML = `
