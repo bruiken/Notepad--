@@ -1,7 +1,6 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from time import sleep
-from dotenv import load_dotenv
 from distutils.util import strtobool
 from setup import setupBrowser
 import unittest

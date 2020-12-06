@@ -1,7 +1,6 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from time import sleep
-from dotenv import load_dotenv
 from distutils.util import strtobool
 from setup import setupBrowser
 import unittest
@@ -28,12 +27,15 @@ class ExternalSearchTest(unittest.TestCase):
         searchButtons()
         sleep(3)
         browser.switch_to.window(browser.window_handles[3])
+        print(browser.current_url)
         google = browser.current_url
         sleep(1)
         browser.switch_to.window(browser.window_handles[2])
+        print(browser.current_url)
         youtube = browser.current_url
         sleep(1)
         browser.switch_to.window(browser.window_handles[1])
+        print(browser.current_url)
         stack = browser.current_url
         self.assertEqual(google,"https://www.google.com/search?q=Jungle%20diff&gws_rd=ssl")
         #self.assertEqual(stack,"https://stackoverflow.com/nocaptcha?s=271f432a-4de7-4b0d-9cab-b40bd0544221")
