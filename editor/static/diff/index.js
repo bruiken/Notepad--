@@ -1,7 +1,7 @@
 function diffPost(){  
     var keyArray = setupKeyArray();
     var input = document.getElementById("placeholderDiff").value;
-    var base = processBaseInput(input, keyArray);
+    var base = processBaseInput(input);
     var toCompare = processCompareInput(input, keyArray);
     fetch('/diff', {
         headers: {
@@ -15,9 +15,6 @@ function diffPost(){
     }).then(function (response) { 
         return response.text();
     }).then(function (text) {
-        console.log(keyArray);
-        console.log("base", base);
-        console.log("toCOmp", toCompare);
         if (base !== false && toCompare !== false)
             showDiff(text);
         else 
@@ -49,9 +46,8 @@ function processCompareInput(input, keyArray){
     return toCompare
 }
 
-function processBaseInput(input, keyArray){
+function processBaseInput(input){
     var base = "";
-    console.log("input ", input);
     if (input == ""){ 
         if (focusedTab == 0)
             base = getEditorText();
@@ -60,11 +56,8 @@ function processBaseInput(input, keyArray){
     }
     else if (input > 0 && input <= totalTabs)
         base = getEditorText();
-    else {
-        console.log("hier2");
+    else 
         return false;
-    }
-
     return base;
 }
 
