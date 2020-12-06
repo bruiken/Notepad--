@@ -3,24 +3,17 @@ from selenium.webdriver.common.keys import Keys
 from time import sleep
 from dotenv import load_dotenv
 from distutils.util import strtobool
+from setup import setupBrowser
 import unittest
 import os
-#initial setup
-load_dotenv()
-if bool(strtobool(os.getenv("FIREFOX"))):
-    fp = webdriver.FirefoxProfile()
-    fp.set_preference("browser.download.folderList",2)
-    fp.set_preference("browser.download.dir", os.getenv("TEST_DOWNLOAD_FOLDER"))
-    fp.set_preference("browser.download.manager.showWhenStarting", False)
-    fp.set_preference("browser.helperApps.neverAsk.saveToDisk", "text/plain")
-    browser = webdriver.Firefox(executable_path=os.getenv("WEBDRIVER_FIREFOX"),firefox_profile=fp)
-elif bool(strtobool(os.getenv("CHROME"))):
-    browser = webdriver.Chrome(os.getenv("WEBDRIVER_CHROME"))
 
+#initial setup
+browser = setupBrowser()
 browser.get("http://127.0.0.1:5000/editor")
 test_file_path = os.getenv("TEST_FILE_PATH")
 test_download_path = os.getenv("TEST_DOWNLOAD_PATH")
 editor = browser.find_element_by_id('textArea')
+
 
 def file_load():
     editor.clear()
