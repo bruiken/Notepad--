@@ -9,6 +9,7 @@ possible_features = [
                      'aop.extensions.coderunner',
                      'aop.extensions.themes',
                      'aop.extensions.searchandreplace',
+                     'aop.extensions.sharing',
                      'aop.extensions.diff']
 
 for feature in possible_features:
