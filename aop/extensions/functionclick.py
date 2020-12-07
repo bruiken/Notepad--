@@ -22,3 +22,7 @@ if feature_function_click:
     @extends('feature_editor_htmls')
     def func_click_editor_html(htmls):
         htmls.append('/function_click/index.html')
+
+    @extends('feature_help_section_htmls')
+    def tabs_feature_help_section_html(htmls):
+        htmls.append('function_click/help.html')
