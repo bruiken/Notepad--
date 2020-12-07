@@ -1,7 +1,7 @@
 function share(program){
     if (program =="whatsapp"){
         var whatsapp = "https://web.whatsapp.com/send?text=```";
-        var text = savedTabInfo[focusedTab].text;
+        var text = getEditorText();
         console.log(text);
         window.open(whatsapp + encodeURIComponent(text) + "```" + "%0a%0a This was shared via Notepad--");
     }
