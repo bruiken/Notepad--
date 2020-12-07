@@ -8,6 +8,7 @@ if feature_code_runner:
     import json
     import subprocess
     from flask import request, jsonify 
+    import shutil
     
     print("Using feature: Code Runner")
     
@@ -20,15 +21,15 @@ if feature_code_runner:
             if successfully compiled. Returns the output with the appropriate error otherwise.
             """
             crs = CodeRunnerSelector('languages.json')
-            filepath = request.form.get('filepath')
-            language = request.form.get('language')
-            returncode, message = crs.run_code(language, filepath)
+            code = request.form.get('code')
+            language = request.form.get('language').lower()
+            returncode, message = crs.run_code(language, code)
             if returncode == -5:
                 return jsonify(success=False, message='Error code {}: {} caught.'.format(str(returncode), str(message)))
             elif returncode == -1:
                 return jsonify(success=False, message='stderr: {}'.format(message))
             elif returncode == 1:
-                return jsonify(success=False, message='Failed to code_runner: {}'.format(message))
+                return jsonify(success=False, message='Failed to run: {}'.format(message))
             return jsonify(success=True, message='stdout: {}'.format(message))
 
 
@@ -86,6 +87,16 @@ if feature_code_runner:
             :param json_path: The path to the json file that contains the languages and their respective attributes.
             """
             self.language_dict = self.parse_json(json_path)
+            self.code_folder = self.make_code_folder()
+
+        @staticmethod
+        def make_code_folder():
+            try:
+                if not os.path.exists('temp'):
+                    os.mkdir('temp')
+                return 'temp'
+            except OSError:
+                print('Creation of the directory failed.')
 
         @staticmethod
         def parse_json(json_path):
@@ -97,25 +108,58 @@ if feature_code_runner:
             with open(json_path) as json_file:
                 return json.load(json_file)
         
-        def compiler_func_selector(self, language, file_path):
+        def compiler_func_selector(self, language, code):
             """
             Selects the appropriate interpreter / compiler for the language given, and calls the corresponding
-            function for that language to create shell arguments.
+            function for that language to create shell arguments and write the code to a file.
             :param language: The language to be interpreted / compiled.
-            :param file_path: The path to the file that needs to be interpreted / compiled.
+            :param code: The code that needs to be run.
             :return: A list of shell arguments to be executed for the file to be interpreted / compiled and run.
             """
+            if language not in self.language_dict:
+                raise UndefinedLanguageError
+            file_path = self.save_code_to_file(language, code)
             if not os.path.exists(file_path):
                 raise UndefinedFileError
             file_path = '"{}"'.format(file_path)
-            if language not in self.language_dict:
-                raise UndefinedLanguageError
             if language == "python":
                 return self.python_command_creator(self.language_dict.get('python').get('compiler_path'), file_path)
-            if language == "java":
-                return self.java_command_creator(self.language_dict.get('java'), file_path)
             if language == "javascript":
                 return self.js_command_creator(self.language_dict.get('javascript').get('compiler_path'), file_path)
+
+        def save_code_to_file(self, language, code):
+            """
+            Chooses the correct function to create a file with the right extension for the code to be run.
+            :param language: The language of the code.
+            :param code: The code to be run.
+            :return: The path to the file containing the code.
+            """
+            if language == 'python':
+                return self.create_python_file(code)
+            if language == 'javascript':
+                return self.create_javascript_file(code)
+        
+        def create_python_file(self, code):
+            """
+            Creates a python file with the code to be run.
+            :param code: The code to be run.
+            :return: The path to the python file.
+            """
+            path = '{}/temp.py'.format(self.code_folder)
+            with open(path, 'w') as f:
+                f.write(code)
+            return path
+
+        def create_javascript_file(self, code):
+            """
+            Creates a javascript file with the code to be run.
+            :param code: The code to be run.
+            :return: The path to the javascript file.
+            """
+            path = '{}/temp.js'.format(self.code_folder)
+            with open(path, 'w') as f:
+                f.write(code)
+            return path
 
         @staticmethod
         def python_command_creator(python_path, file_path):
@@ -126,18 +170,6 @@ if feature_code_runner:
             :return: The list of arguments to be executed by the shell.
             """
             return ['%s %s' % (python_path, file_path)]
-
-        @staticmethod
-        def java_command_creator(java, file_path):
-            """
-            Creates the shell arguments to execute the file on the given path location with java.
-            :param java: The java compiler path.
-            :param file_path: The path of the file to be executed with java.
-            :return: The list of arguments to be executed by the shell.
-            """
-            compiler = java.get('compiler')
-            compiler_path = java.get('compiler_path')
-            return ['%s %s' % (compiler, compiler_path), '%s %s' % (compiler, file_path)]
         
         @staticmethod
         def js_command_creator(node_path, file_path):
@@ -149,19 +181,20 @@ if feature_code_runner:
             """
             return ['%s %s' % (node_path, file_path)]
 
-        def run_code(self, language, file_path):
+        def run_code(self, language, code):
             """
             Tries to get a list of shell arguments to execute and execute them in sequence. Then returns
             the appropriate shell output including stdout and stderr. Catches exceptions for unknown languages
             and files.
             :param language: The language for which the shell arguments need to be created.
-            :param file_path: The path to the file that needs to be executed.
+            :param code: The code that needs to be executed.
             :return: The appropriate shell output or error messages.
             """
             try:
-                commands = self.compiler_func_selector(language, file_path)
+                commands = self.compiler_func_selector(language, code)
                 execute = ' ; '.join(commands)
                 result = subprocess.run(execute, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+                shutil.rmtree(self.code_folder)
                 if result.returncode == 1:
                     return 1, result.stdout.decode('utf-8')
                 if result.stderr is not None:
