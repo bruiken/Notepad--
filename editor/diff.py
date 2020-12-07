@@ -2,7 +2,6 @@ import difflib
 from flask import jsonify
 
 
-
 def diffOnSentences(one, two):
     text1 = str.splitlines(one)
     text2 = str.splitlines(two)
