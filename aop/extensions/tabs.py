@@ -12,6 +12,10 @@ if feature_tabs:
     def feature_tabs(features):
         features['tabs'] = True
 
+    @extends('feature_sheets')
+    def func_click_css(sheets):
+        sheets.append('/static/tabs/index.css')
+
     @extends('feature_scripts')
     def tabs_js(scripts):
         scripts.append('/static/tabs/index.js')

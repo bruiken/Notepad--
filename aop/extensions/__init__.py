@@ -8,7 +8,8 @@ possible_features = [
                      'aop.extensions.externalsearch',
                      'aop.extensions.coderunner',
                      'aop.extensions.themes',
-                     'aop.extensions.searchandreplace']
+                     'aop.extensions.searchandreplace',
+                     'aop.extensions.diff']
 
 for feature in possible_features:
     try:
