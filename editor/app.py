@@ -2,7 +2,6 @@ from flask import Flask, render_template, request, redirect
 from flask_bootstrap import Bootstrap
 import os
 import aop
-import json
 from aop import extensible, check_errors
 
 
