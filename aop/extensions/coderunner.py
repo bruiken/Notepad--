@@ -49,6 +49,10 @@ if feature_code_runner:
     def code_runner_modal_html(htmls):
         htmls.append('/code_runner/modal.html')
 
+    @extends('feature_help_section_htmls')
+    def tabs_feature_help_section_html(htmls):
+        htmls.append('code_runner/help.html')
+
     class Error(Exception):
         """
         Base class for other exceptions.
