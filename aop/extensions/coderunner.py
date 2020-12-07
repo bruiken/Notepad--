@@ -111,8 +111,9 @@ if feature_code_runner:
         def compiler_func_selector(self, language, code):
             """
             Selects the appropriate interpreter / compiler for the language given, and calls the corresponding
-            function for that language to create shell arguments.
+            function for that language to create shell arguments and write the code to a file.
             :param language: The language to be interpreted / compiled.
+            :param code: The code that needs to be run.
             :return: A list of shell arguments to be executed for the file to be interpreted / compiled and run.
             """
             if language not in self.language_dict:
@@ -127,18 +128,34 @@ if feature_code_runner:
                 return self.js_command_creator(self.language_dict.get('javascript').get('compiler_path'), file_path)
 
         def save_code_to_file(self, language, code):
+            """
+            Chooses the correct function to create a file with the right extension for the code to be run.
+            :param language: The language of the code.
+            :param code: The code to be run.
+            :return: The path to the file containing the code.
+            """
             if language == 'python':
                 return self.create_python_file(code)
             if language == 'javascript':
                 return self.create_javascript_file(code)
         
         def create_python_file(self, code):
+            """
+            Creates a python file with the code to be run.
+            :param code: The code to be run.
+            :return: The path to the python file.
+            """
             path = '{}/temp.py'.format(self.code_folder)
             with open(path, 'w') as f:
                 f.write(code)
             return path
 
         def create_javascript_file(self, code):
+            """
+            Creates a javascript file with the code to be run.
+            :param code: The code to be run.
+            :return: The path to the javascript file.
+            """
             path = '{}/temp.js'.format(self.code_folder)
             with open(path, 'w') as f:
                 f.write(code)
@@ -170,7 +187,7 @@ if feature_code_runner:
             the appropriate shell output including stdout and stderr. Catches exceptions for unknown languages
             and files.
             :param language: The language for which the shell arguments need to be created.
-            :param file_path: The path to the file that needs to be executed.
+            :param code: The code that needs to be executed.
             :return: The appropriate shell output or error messages.
             """
             try:
