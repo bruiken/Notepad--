@@ -29,3 +29,7 @@ if feature_diff:
     @extends('feature_page_htmls')
     def diff_html(htmls):
         htmls.append('/diff/index.html')
+
+    @extends('feature_help_section_htmls')
+    def diff_feature_help_section_html(htmls):
+        htmls.append('/diff/help.html')
