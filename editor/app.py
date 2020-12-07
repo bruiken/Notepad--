@@ -28,7 +28,7 @@ def define_endpoints(flaskapp):
                                page_html=feature_page_htmls([]),
                                menu_item_html=feature_menu_item_htmls([]),
                                modal_html=feature_modal_htmls([]),
-                               **feature_states({}))    
+                               **feature_states({}))
 
 
 @extensible
