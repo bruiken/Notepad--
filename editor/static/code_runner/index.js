@@ -10,12 +10,12 @@ function compileandrun(language){
         code: editor_text,
         language: language
     };
-    $.post("/editor/code_runner", data, function (data) {
-        if (data['success'] === true) {
-            console.log('Attempt successful. Output: ' + data['message']);
+    $.post("/editor/code_runner", data, function (return_data) {
+        if (return_data['success'] === true) {
+            console.log('Attempt successful. Output: ' + return_data['message']);
         }
-        else if (data['success'] === false) {
-            console.log('Attempt failed. Cause: ' + data['message']);
+        else if (return_data['success'] === false) {
+            console.log('Attempt failed. Cause: ' + return_data['message']);
         }
     })
 }
