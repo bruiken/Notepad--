@@ -3,6 +3,6 @@
         "compiler_path": "python"
     },
     "javascript": {
-        "compiler_path": "test"
+        "compiler_path": "node"
     }
 }
