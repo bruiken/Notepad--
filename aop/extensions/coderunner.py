@@ -22,7 +22,7 @@ if feature_code_runner:
             """
             crs = CodeRunnerSelector('languages.json')
             code = request.form.get('code')
-            language = request.form.get('language')
+            language = request.form.get('language').lower()
             returncode, message = crs.run_code(language, code)
             if returncode == -5:
                 return jsonify(success=False, message='Error code {}: {} caught.'.format(str(returncode), str(message)))
