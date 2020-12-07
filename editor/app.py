@@ -32,13 +32,11 @@ def define_endpoints(flaskapp):
                                modal_html=feature_modal_htmls([]),
                                **feature_states({}))
     
-    @flaskapp.route('/diff',methods=['POST', 'GET'])
+    @flaskapp.route('/diff',methods=['POST'])
     def test():
-        if request.method == 'POST':
-            incoming = request.get_json()
-            html = df.diffOnSentences(incoming["one"], incoming["two"])
-            return html, 200
-        return "This shouldn't ever be returned"
+        incoming = request.get_json()
+        html = df.diffOnSentences(incoming["one"], incoming["two"])
+        return html, 200
 
 
 
