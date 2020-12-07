@@ -1,7 +1,15 @@
-function compileandrun(filepath, language){
-    console.log('Attempting to compile file "' + filepath + '" with language "' + language + '"');
+$(() => {
+});
+
+/**
+ * Sends a request to the server that attempts to 
+ * @param {string} language 
+ */
+function compileandrun(language){
+    var editor_text = getEditorText(); 
+    console.log('Attempting to run code with language "' + language + '"');
     const data = {
-        filepath: filepath,
+        code: editor_text,
         language: language
     };
     $.post("/editor/code_runner", data, function (data) {

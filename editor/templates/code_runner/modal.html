@@ -8,12 +8,11 @@
                 </button>
             </div>
             <div class="modal-body">
-                <input type="text" placeholder="Enter file path" id="filepathField" class="form-control form-text"/>
                 <input type="text" placeholder="Enter language" id="languageField" class="form-control form-text"/>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <a class="btn btn-primary" onclick="compileandrun(document.getElementById('filepathField').value, document.getElementById('languageField').value) ; $('#compileAndRunModal').modal('toggle');">Compile & Run</a>
+                <a class="btn btn-primary" onclick="compileandrun(document.getElementById('languageField').value) ; $('#compileAndRunModal').modal('toggle');">Compile & Run</a>
             </div>
         </div>
     </div>
