@@ -1,7 +1,16 @@
-function diffPost(){  
-    var input = document.getElementById("placeholderDiff").value;
+$(() => {
+    var inputBox = document.getElementById("placeholderDiff");
+    if(typeof focusedTab === 'undefined') {
+	inputBox.disabled = true;
+	inputBox.value = "Click diff to see unsaved changes";
+    }
+});
+
+function diffPost(){
+    var inputBox = document.getElementById("placeholderDiff");
     var diffs = ["", ""];
     if(typeof focusedTab !== 'undefined') {
+	var input = inputBox.value;
 	var keyArray = setupKeyArray();
 	diffs = getDiffTextTabs(input, keyArray);
     } else {
@@ -49,7 +58,7 @@ function getDiffTextTabs(input, keyArray) {
     }
 
     if(firstTab === secondTab) {
-	return [getTextById(firstTab), savedTabInfo(secondTab)];
+	return [getTextById(firstTab), savedTabInfo[secondTab].text];
     }
 
     return [getTextById(firstTab), getTextById(secondTab)];
