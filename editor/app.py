@@ -3,7 +3,6 @@ from flask_bootstrap import Bootstrap
 import os
 import aop
 import json
-from editor import diff as df
 from aop import extensible, check_errors
 
 
@@ -32,13 +31,6 @@ def define_endpoints(flaskapp):
                                modal_html=feature_modal_htmls([]),
                                **feature_states({}))
     
-    @flaskapp.route('/diff',methods=['POST'])
-    def test():
-        incoming = request.get_json()
-        html = df.diffOnSentences(incoming["one"], incoming["two"])
-        return html, 200
-
-
 
 
 @extensible
