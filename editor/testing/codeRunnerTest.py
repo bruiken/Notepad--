@@ -10,7 +10,7 @@ import os
 browser = setupBrowser()
 browser.get("http://127.0.0.1:5000/editor")
 test_file_path = os.getenv("TEST_FILE_PATH")
-editor = browser.find_element_by_id
+editor = browser.find_element_by_id("textArea")
 language = os.getenv("LANGUAGE")
 
 def file_load():
