@@ -23,11 +23,4 @@ def file_load():
     run = browser.find_element_by_id("runCode")
     run.click()
 
-
-class CodeRunnerTest(unittest.TestCase):
-    def testFileRun(self):
-        file_load()
-        self.assertEqual(1,1)
-
-if __name__ == '__main__':
-    unittest.main() 
+file_load()

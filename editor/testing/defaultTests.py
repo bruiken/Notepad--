@@ -26,13 +26,13 @@ def file_load():
 def file_save_hotkey():
     editor.clear()
     editor.click()
-    editor.send_keys("Jungle diff")
+    editor.send_keys("Hello there!")
     editor.send_keys(Keys.CONTROL, "s")
 
 def file_save_button():
     editor.clear()
     editor.click()
-    editor.send_keys("Jungle diff")
+    editor.send_keys("Hello there!")
     nav_button = browser.find_element_by_id("navbarDropdown")
     nav_button.click()
     save_button = browser.find_element_by_link_text("Save")
@@ -41,7 +41,7 @@ def file_save_button():
 def file_download():
     editor.clear()
     editor.click()
-    editor.send_keys("Jungle diff")
+    editor.send_keys("Hello there!")
     editor.send_keys(Keys.CONTROL, "s")
     nav_button = browser.find_element_by_id("navbarDropdown")
     nav_button.click()
@@ -66,12 +66,12 @@ class FileTest(unittest.TestCase):
     def testFileSaveHotkey(self):
         file_save_hotkey()
         expected_output = editor.get_attribute("value")
-        self.assertEqual(expected_output,"Jungle diff")
+        self.assertEqual(expected_output,"Hello there!")
 
     def testFileSaveButton(self):
         file_save_button()
         expected_output = editor.get_attribute("value")
-        self.assertEqual(expected_output, "Jungle diff")
+        self.assertEqual(expected_output, "Hello there!")
 
     def testFileDownload(self):
         file_download()
