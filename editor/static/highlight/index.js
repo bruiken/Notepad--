@@ -1,6 +1,12 @@
+// Is set to true when a request is outgoing to the python host
 var isRequesting = false;
+// Is set to true when highlighting is requested
 var requestHighlight = false;
 
+/**
+ * Loaded on page load
+ * Set the event listeners to process syntax highlighting and synchronize the two areas (syntax highlighting + actual text)
+ */
 $(() => {
     var textArea = document.getElementById('textArea');
     var displayArea = document.getElementById('highlight-area');
@@ -26,6 +32,9 @@ $(() => {
     initialize_stylesheet();
 });
 
+/**
+ * Initialize the editor theme
+ */
 function initialize_stylesheet() {
     var chosenTheme = 'default';
     var savedTheme = localStorage.getItem('editorTheme')
@@ -42,16 +51,29 @@ function initialize_stylesheet() {
     });
 }
 
+/**
+ * Equalize the scroll between the display area (used for syntax highlighting) and the text area
+ * @param {div} displayArea 
+ * @param {textarea} textArea 
+ */
 function equalize_scrolls(displayArea, textArea) {
     displayArea.scrollTop = textArea.scrollTop;
     displayArea.scrollLeft = textArea.scrollLeft;
 }
 
+/**
+ * Reprocess the syntax highlighting when a different language is chosen
+ */
 function selectedLanguage() {
     var textArea = document.getElementById('textArea');
     processPost(textArea);
 }
 
+/**
+ * Process the syntax highlighting by sending it to the python host
+ * Make sure that we do not request too many times in a short amount
+ * @param {textarea} textarea 
+ */
 function processPost(textarea) {
     if (isRequesting) {
         requestHighlight = true;
