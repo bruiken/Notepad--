@@ -42,7 +42,7 @@
 </li>
 {% endblock %}
 {% block content %}
-    <input id="fileinput" type="file" class="custom-file-input d-none" onchange="fileLoad(this);" />
+    <input id="fileinput" type="file" class="custom-file-input d-none" onchange="fileLoad();" />
     <!-- Editor textarea container -->
     <div class="container">
         {% for html in page_html %}
