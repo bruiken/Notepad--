@@ -1,11 +1,20 @@
+// Boolean that is set to true of the text is saved
 var isSaved = true;
+// The saved text obtained from the localstorage
 var savedText = "";
+// The textarea obtained by id
 var textArea = document.getElementById("textArea");
 
+// Loaded on page load
 $(() => {
+    // Restore and set the editor text
     setEditorText(restoreText(textArea));
 });
 
+/**
+ * Saves the text and shows a notification
+ * @param {textarea} textarea The textarea field
+ */
 function saveText(textarea) {
     infoNotification('Saved');
     localStorage.setItem(textarea.id, textarea.value);
@@ -14,6 +23,10 @@ function saveText(textarea) {
     setTitle(isSaved);
 }
 
+/**
+ * Set the title of the page, add a * if not saved
+ * @param {boolean} isSaved The boolean that indicates of the text is saved
+ */
 function setTitle(isSaved) {
     var title = "";
     if(!isSaved) {
@@ -23,41 +36,70 @@ function setTitle(isSaved) {
     document.title = title;
 }
 
+/**
+ * Send out an info notification
+ * @param {string} text The text for the notification
+ */
 function infoNotification(text) {
     $('#saved').text(text);
     $('#saved').fadeIn(300).delay(1500).fadeOut(400);
 }
 
+/**
+ * Send out a warning notification
+ * @param {string} text The text for the notification
+ */
 function warnNotification(text) {
     $('#warning').text(text);
     $('#warning').fadeIn(300).delay(1500).fadeOut(400);
 }
 
-
+/**
+ * Get the text from the localstorage
+ * @param {textarea} textarea 
+ */
 function restoreText(textarea) {
     var saved = localStorage.getItem(textarea.id) || "";
     savedText = saved;
     return saved;
 }
 
+/**
+ * Set the editor text
+ * @param {string} text The text to set
+ */
 function setEditorText(text) {
     textArea.value = text;
     $(document).trigger('textChanged');
 }
 
-function getEditorText(text) {
+/**
+ * Get the editor text
+ */
+function getEditorText() {
     return textArea.value;
 }
 
+/**
+ * Set the scroll position for the editor
+ * @param {list} scrollPos List of scroll positions
+ */
 function setEditorScrollPos(scrollPos) {
     textArea.scrollLeft = scrollPos[0];
     textArea.scrollTop = scrollPos[1];
 }
 
+/**
+ * Get the scroll position of the editor
+ */
 function getEditorScrollPos() {
     return [textArea.scrollLeft, textArea.scrollTop];
 }
 
+/**
+ * Download a file with name
+ * @param {string} name The name of the downloaded element
+ */
 function downloadfile(name){
     var workElement = document.createElement("a");
     if ('download' in workElement) {
@@ -71,11 +113,21 @@ function downloadfile(name){
     }
 }
 
+/**
+ * Set the title on key release
+ * @param {*} event The keyrelease event
+ * @param {*} textarea The textarea
+ */
 function processTitle(event, textarea) {
     isSaved = textarea.value == savedText;
     setTitle(isSaved);
 }
 
+/**
+ * Process the text on keypress, adds the ctrl+s save keybind and fixes tabbing
+ * @param {*} event The keypress event
+ * @param {*} textarea The textarea
+ */
 function processText (event, textarea) { 
     if (event.ctrlKey && event.keyCode === 83) {
         event.preventDefault();
@@ -93,7 +145,10 @@ function processText (event, textarea) {
     }
 }
 
-function fileLoad(inputField){ // loads a file 
+/**
+ * Load a file 
+ */
+function fileLoad(){
     var file = document.getElementById("fileinput").files[0];
     var reader = new FileReader();
     reader.onload = function (e) {
