@@ -34,4 +34,4 @@ Lastly, if you change the features in the `.env` file, make sure you press `ctrl
 in the browser to refresh the cache: this is to make the browser load the correct files.
 
 ## Testing 
-Testing is done in the branch selenium-testing. Selenium and the correct webdriver for Chrome and Firefox should be installed. Specfying the webdrivers, download and file paths can be in the `.env` file. After that you can run the test files. 
+Testing is done in the branch selenium-testing. Selenium and the correct webdriver for Chrome and Firefox should be installed. Specifying the webdrivers, download and file paths can be done in the `.env` file. After that you can run the test files. 
