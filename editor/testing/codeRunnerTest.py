@@ -14,6 +14,8 @@ editor = browser.find_element_by_id("textArea")
 language = os.getenv("LANGUAGE")
 
 def file_load():
+    editor.click()
+    editor.send_keys("""print("Hello world!")""")
     run_button = browser.find_element_by_link_text("Compile & Run")
     run_button.click()
     sleep(1)

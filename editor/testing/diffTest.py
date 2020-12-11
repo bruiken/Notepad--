@@ -20,15 +20,6 @@ def diffDefault():
     diff_button.click()
     sleep(1)
     browser.switch_to.window(browser.window_handles[1])
-    # html = browser.page_source
-    # sleep(2)
-    # print(htmlCompare)
-    # print("---------------------")
-    # print(html)
-    # if (str(html) == htmlCompare):
-    #     print("pls?")
-    # else:
-    #     print("nope")
 
 diffDefault()
 
